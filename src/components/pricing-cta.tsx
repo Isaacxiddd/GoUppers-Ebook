@@ -20,7 +20,7 @@ export function PricingCta() {
               {/* left: what you get */}
               <div>
                 <h2 className="font-display text-3xl font-800 leading-[1.05] tracking-tight sm:text-4xl">
-                  Llevate el sistema
+                  Llévate el sistema
                   <br />
                   completo hoy.
                 </h2>

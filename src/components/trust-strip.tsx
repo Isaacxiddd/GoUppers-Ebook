@@ -1,7 +1,7 @@
 import { Lightning, LockKey, SealCheck } from "@phosphor-icons/react/dist/ssr";
 
 const ITEMS = [
-  { icon: Lightning, label: "Descarga inmediata", sub: "Recibís el PDF apenas pagás" },
+  { icon: Lightning, label: "Descarga inmediata", sub: "Recibes el PDF apenas pagas" },
   { icon: LockKey, label: "Pago seguro con Stripe", sub: "Tus datos nunca pasan por nosotros" },
   { icon: SealCheck, label: "Garantía de 7 días", sub: "No te sirve, te devolvemos todo" },
 ];

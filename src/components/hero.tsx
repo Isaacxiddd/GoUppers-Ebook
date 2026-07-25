@@ -37,7 +37,7 @@ export function Hero() {
           <h1 className="font-display text-[2.8rem] font-700 leading-[1.04] tracking-tight text-white sm:text-[4rem]">
             Tu propiedad ya
             <br />
-            es buena. Hacela{" "}
+            es buena. Hazla{" "}
             <span className="text-amarillo">rentable</span>,
             <br className="hidden sm:block" />{" "}
             <span className="text-turquesa">también.</span>

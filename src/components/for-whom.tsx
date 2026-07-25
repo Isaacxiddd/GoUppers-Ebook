@@ -3,10 +3,10 @@ import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/ui/reveal";
 
 const POINTS = [
-  "Comprás o ya tenés una propiedad y no sabés por dónde empezar.",
-  "Ya alquilás, pero el calendario tiene más huecos que reservas.",
+  "Compras o ya tienes una propiedad y no sabes por dónde empezar.",
+  "Ya alquilas, pero el calendario tiene más huecos que reservas.",
   "Estás cansado de dejar el 20% en manos de una inmobiliaria.",
-  "Querés ingresos en dólares sin vivir pendiente del teléfono.",
+  "Quieres ingresos en dólares sin vivir pendiente del teléfono.",
 ];
 
 export function ForWhom() {
@@ -27,7 +27,7 @@ export function ForWhom() {
 
         <Reveal className="order-1 lg:order-2" delay={0.1}>
           <h2 className="font-display text-4xl font-800 leading-[1.05] tracking-tight text-ink sm:text-5xl">
-            Es para vos si te pasa
+            Es para ti si te pasa
             <br />
             alguna de estas.
           </h2>

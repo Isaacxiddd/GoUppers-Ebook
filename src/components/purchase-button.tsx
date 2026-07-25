@@ -30,7 +30,7 @@ export function PurchaseButton({
       if (!data.url) throw new Error("no_url");
       window.location.assign(data.url);
     } catch {
-      setError("No pudimos iniciar el pago. Probá de nuevo en un momento.");
+      setError("No pudimos iniciar el pago. Prueba de nuevo en un momento.");
       setLoading(false);
     }
   }

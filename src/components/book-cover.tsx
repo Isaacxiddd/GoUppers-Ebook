@@ -18,15 +18,47 @@ export function BookCover() {
         className="book-card relative aspect-[3/4] w-[290px] sm:w-[336px]"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* page block (right edge) */}
+        {/* page block — fore-edge (right): fine warm leaves + shading */}
         <div
-          className="absolute inset-y-[7px] right-0 rounded-r-[4px]"
+          className="absolute inset-y-[6px] right-0 rounded-r-[3px]"
           style={{
             width: THICK,
             transform: `rotateY(90deg) translateZ(${-THICK / 2}px) translateX(${THICK / 2}px)`,
-            background: "repeating-linear-gradient(90deg,#fdfdfd 0 1.5px,#dcdcdc 1.5px 3px)",
+            backgroundColor: "#efe8d6",
+            backgroundImage:
+              "repeating-linear-gradient(90deg, rgba(92,80,58,0.32) 0 0.6px, rgba(255,255,255,0) 0.6px 2.3px), linear-gradient(90deg, rgba(0,0,0,0.32), transparent 22%), linear-gradient(180deg, rgba(0,0,0,0.26), transparent 13%, transparent 87%, rgba(0,0,0,0.26))",
+            boxShadow: "inset 0 0 8px rgba(0,0,0,0.28)",
           }}
         />
+        {/* page block — top edge: page tops visible when the book leans back */}
+        <div
+          className="absolute left-[6px] right-[6px] top-0 rounded-t-[2px]"
+          style={{
+            height: THICK,
+            transform: `rotateX(90deg) translateZ(${THICK / 2}px)`,
+            transformOrigin: "top",
+            backgroundColor: "#efe8d6",
+            backgroundImage:
+              "repeating-linear-gradient(0deg, rgba(92,80,58,0.22) 0 0.6px, rgba(255,255,255,0) 0.6px 3px), linear-gradient(90deg, rgba(0,0,0,0.28), transparent 18%, transparent 82%, rgba(0,0,0,0.12))",
+          }}
+        />
+        {/* a few individual leaves peeking past the front board (natural, imperfect) */}
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            aria-hidden
+            className="absolute rounded-r-[2px]"
+            style={{
+              top: 11 + i * 2,
+              bottom: 12 + i * 3,
+              right: -1.5 - i * 0.6,
+              width: 7,
+              background: "linear-gradient(90deg,#efe6d2,#fbf7ec)",
+              transform: `translateZ(${THICK / 2 - 3 - i * 4}px)`,
+              boxShadow: "0 1px 1.5px rgba(0,0,0,0.16)",
+            }}
+          />
+        ))}
         {/* spine (left edge) */}
         <div
           className="absolute inset-y-0 left-0 rounded-l-[4px]"

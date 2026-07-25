@@ -68,7 +68,7 @@ export function SuccessContent({ sessionId }: { sessionId?: string }) {
           ¡Listo! Ya es tuyo.
         </h1>
         <p className="mt-3 max-w-sm text-muted">
-          Gracias por tu compra. Descargá la Guía para propietarios ahora mismo.
+          Gracias por tu compra. Descarga la Guía para propietarios ahora mismo.
           {state.email ? ` También te la enviamos a ${state.email}.` : ""}
         </p>
         <div className="mt-8">
@@ -78,7 +78,7 @@ export function SuccessContent({ sessionId }: { sessionId?: string }) {
           </CtaButton>
         </div>
         <p className="mt-4 text-[13px] text-muted">
-          El enlace es temporal. Si expira, volvé a abrir esta página desde tu
+          El enlace es temporal. Si expira, vuelve a abrir esta página desde tu
           correo.
         </p>
       </Card>
@@ -93,8 +93,8 @@ export function SuccessContent({ sessionId }: { sessionId?: string }) {
           El pago todavía no se confirmó
         </h1>
         <p className="mt-2 max-w-sm text-muted">
-          Si acabás de pagar, esperá unos segundos y recargá. Si el problema
-          sigue, escribinos a hola@gouppers.com.
+          Si acabas de pagar, espera unos segundos y recarga. Si el problema
+          persiste, escríbenos a hola@gouppers.com.
         </p>
         <a href="/#comprar" className="mt-6 text-sm font-600 text-accent-red-cta">
           Volver a intentar
@@ -110,7 +110,7 @@ export function SuccessContent({ sessionId }: { sessionId?: string }) {
         No pudimos verificar tu compra
       </h1>
       <p className="mt-2 max-w-sm text-muted">
-        No te preocupes, no perdiste nada. Escribinos a hola@gouppers.com con tu
+        No te preocupes, no perdiste nada. Escríbenos a hola@gouppers.com con tu
         comprobante y te enviamos el ebook enseguida.
       </p>
       <a href="/" className="mt-6 text-sm font-600 text-accent-red-cta">
