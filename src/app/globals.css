@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
+/* ── GoUppers brand tokens (client-provided) ─────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-hero: #181818;      /* Negro Antracita — hero + footer */
+  --accent-red: #ff3b30;   /* highlights, icons, text-on-light, logo */
+  --accent-red-cta: #d6281f; /* deeper shade of the same red for button fills — white text passes WCAG AA (5:1) */
+  --accent-gold: #e5c042;  /* secondary highlight, cover stripe */
+  --green-dark: #1a3d36;   /* guarantee badge bg */
+  --green-light: #4ecca3;  /* guarantee badge text/border */
+  --white: #ffffff;
+
+  /* neutrals derived to stay in the warm-anthracite family */
+  --ink: #16181a;          /* near-black body text (not pure #000) */
+  --paper: #ffffff;        /* light page background */
+  --paper-2: #f6f5f3;      /* subtle section tint */
+  --muted: #5b5f63;        /* secondary text */
+  --line: #e7e5e1;         /* hairline borders */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-hero: var(--bg-hero);
+  --color-accent-red: var(--accent-red);
+  --color-accent-red-cta: var(--accent-red-cta);
+  --color-accent-gold: var(--accent-gold);
+  --color-green-dark: var(--green-dark);
+  --color-green-light: var(--green-light);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-manrope);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* CTA breathing pulse — motivated: keeps the single conversion action alive.
+   Collapses under reduced motion. */
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(255 59 48 / 0.45); }
+  50% { box-shadow: 0 0 0 14px rgb(255 59 48 / 0); }
+}
+.cta-pulse {
+  animation: cta-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cta-pulse { animation: none; }
 }
