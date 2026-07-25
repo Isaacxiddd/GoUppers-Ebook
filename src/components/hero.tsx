@@ -1,8 +1,7 @@
-import { ArrowDown, Check, Lightning } from "@phosphor-icons/react/dist/ssr";
+import { ArrowDown, Lightning } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
-import { Book3D } from "@/components/book-3d";
-
-const MINI = ["Precios por temporada", "Fotos que venden", "Reseñas de 5★"];
+import { BookTilt } from "@/components/book-tilt";
+import { BookCover } from "@/components/book-cover";
 
 /** Server component: the LCP copy is static so it paints immediately (no mount
  *  animation gating LCP). Only the 3D book is a client island. */
@@ -33,33 +32,23 @@ export function Hero() {
       </span>
 
       <div className="relative mx-auto grid min-h-[100dvh] max-w-7xl grid-cols-1 items-center gap-12 px-5 pb-16 pt-28 sm:px-8 lg:grid-cols-[1.12fr_0.88fr] lg:gap-6 lg:pt-24">
-        {/* ── left: editorial copy ── */}
+        {/* ── left: editorial copy (minimal, title-first) ── */}
         <div className="relative">
-          {/* vertical accent rule + tagline */}
-          <div className="mb-7 flex items-center gap-3">
-            <span className="h-8 w-[3px] rounded-full bg-accent-red" />
-            <span className="text-[13px] font-500 tracking-wide text-white/55">
-              Somos más que simples gestores de propiedades
-            </span>
-          </div>
-
-          <h1 className="font-display text-[2.7rem] font-700 leading-[1.05] tracking-tight text-white sm:text-[3.6rem]">
+          <h1 className="font-display text-[2.8rem] font-700 leading-[1.04] tracking-tight text-white sm:text-[4rem]">
             Tu propiedad ya
             <br />
             es buena. Hacela{" "}
-            <span className="border-b-4 border-turquesa text-amarillo">
-              rentable
-            </span>
-            ,<br className="hidden sm:block" />{" "}
+            <span className="text-amarillo">rentable</span>,
+            <br className="hidden sm:block" />{" "}
             <span className="text-turquesa">también.</span>
           </h1>
 
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-white/70">
+          <p className="mt-7 max-w-md text-lg leading-relaxed text-white/70">
             La guía definitiva para transformar tu casa o departamento en un
             alquiler vacacional que rinde todos los meses.
           </p>
 
-          <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <CtaButton href="#comprar" pulse>
               Quiero el ebook
             </CtaButton>
@@ -72,21 +61,17 @@ export function Hero() {
             </a>
           </div>
 
-          {/* mini table-of-contents — scannable value, breaks the plain stack */}
-          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-white/10 pt-6">
-            {MINI.map((item) => (
-              <li key={item} className="flex items-center gap-2 text-sm text-white/70">
-                <Check weight="bold" className="size-4 text-turquesa" />
-                {item}
-              </li>
-            ))}
-          </ul>
+          <p className="mt-6 text-sm text-white/45">
+            Descarga inmediata · Garantía de 7 días
+          </p>
         </div>
 
         {/* ── right: 3D book + floating accents ── */}
         <div className="relative flex justify-center lg:justify-end">
           <div className="relative">
-            <Book3D />
+            <BookTilt>
+              <BookCover />
+            </BookTilt>
 
             {/* floating amarillo seal */}
             <div className="seal-wobble absolute -right-2 -top-3 grid size-20 place-items-center rounded-full bg-amarillo text-center shadow-lg sm:-right-4">

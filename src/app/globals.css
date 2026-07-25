@@ -59,6 +59,42 @@ body {
   animation: cta-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
+/* Scroll-reveal — pure CSS scroll-driven animation, zero JS hydration.
+   Each element animates as it enters the viewport (natural stagger). */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 3D book tilt + specular glare — driven by CSS vars set by <BookTilt>.
+   Cover markup is server-rendered; only the transform updates on pointer move. */
+.book-card {
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, -13deg));
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+.book-glare {
+  background: radial-gradient(
+    circle at var(--gx, 28%) var(--gy, 16%),
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.06) 32%,
+    transparent 60%
+  );
+  transition: background 0.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-card { transition: none; }
+}
+
 /* Floating seal wobble — CSS only, no JS cost. */
 @keyframes seal-wobble {
   0%, 100% { transform: rotate(-5deg); }
