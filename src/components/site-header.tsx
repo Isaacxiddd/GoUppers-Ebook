@@ -1,4 +1,4 @@
-import { HouseLine } from "@phosphor-icons/react/dist/ssr";
+import { Logo } from "@/components/logo";
 
 const NAV = [
   { label: "Qué incluye", href: "#beneficios" },
@@ -10,14 +10,7 @@ export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line/80 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5 sm:px-8">
-        <a href="#top" className="flex items-center gap-2" aria-label="GoUppers, inicio">
-          <span className="grid size-8 place-items-center rounded-lg bg-accent-red">
-            <HouseLine weight="fill" className="size-5 text-white" />
-          </span>
-          <span className="font-display text-xl font-800 tracking-tight text-ink">
-            GoUppers
-          </span>
-        </a>
+        <Logo href="#top" wordmarkClass="text-ink" />
 
         <nav className="hidden items-center gap-8 md:flex">
           {NAV.map((item) => (

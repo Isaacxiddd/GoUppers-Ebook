@@ -1,4 +1,4 @@
-import { HouseLine } from "@phosphor-icons/react/dist/ssr";
+import { Logo } from "@/components/logo";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -6,14 +6,7 @@ export function SiteFooter() {
     <footer className="bg-bg-hero text-white" style={{ background: "var(--bg-hero)" }}>
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
         <div className="flex flex-col gap-8 border-b border-white/10 pb-10 sm:flex-row sm:items-center sm:justify-between">
-          <a href="#top" className="flex items-center gap-2">
-            <span className="grid size-8 place-items-center rounded-lg bg-accent-red">
-              <HouseLine weight="fill" className="size-5 text-white" />
-            </span>
-            <span className="font-display text-xl font-800 tracking-tight">
-              GoUppers
-            </span>
-          </a>
+          <Logo href="#top" wordmarkClass="text-white" />
           <a
             href="#comprar"
             className="inline-flex w-fit items-center rounded-full bg-white px-5 py-2.5 text-sm font-700 text-ink transition-transform hover:-translate-y-px"
