@@ -1,70 +1,65 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
-import { ShieldCheck, ArrowDown } from "@phosphor-icons/react";
+import { ArrowDown, Check, Lightning } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
-import { EbookCover } from "@/components/ebook-cover";
+import { Book3D } from "@/components/book-3d";
 
-const ease = [0.16, 1, 0.3, 1] as const;
+const MINI = ["Precios por temporada", "Fotos que venden", "Reseñas de 5★"];
 
+/** Server component: the LCP copy is static so it paints immediately (no mount
+ *  animation gating LCP). Only the 3D book is a client island. */
 export function Hero() {
-  const reduce = useReducedMotion();
-
-  const rise = (delay: number) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.7, delay, ease },
-        };
-
   return (
     <section
       id="top"
-      className="relative overflow-hidden bg-bg-hero"
+      className="relative overflow-hidden"
       style={{ background: "var(--bg-hero)" }}
     >
-      {/* warm radial glow behind the cover — depth, not neon */}
+      {/* brand glows — depth, not neon */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-40 top-1/4 h-[520px] w-[520px] rounded-full opacity-40 blur-[120px]"
-        style={{ background: "radial-gradient(circle, #ff3b30 0%, transparent 70%)" }}
+        className="pointer-events-none absolute -right-32 top-1/4 h-[620px] w-[620px] rounded-full opacity-35"
+        style={{ background: "radial-gradient(circle,rgba(244,46,49,0.9) 0%,transparent 62%)" }}
       />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full opacity-20"
+        style={{ background: "radial-gradient(circle,rgba(39,208,186,0.9) 0%,transparent 62%)" }}
+      />
+      {/* oversized ghost wordmark breaking the grid */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -bottom-8 left-2 select-none font-display text-[26vw] font-700 leading-none tracking-tighter text-white/[0.03] sm:text-[20vw]"
+      >
+        GoUppers
+      </span>
 
-      <div className="mx-auto grid min-h-[100dvh] max-w-7xl grid-cols-1 items-center gap-12 px-5 pb-16 pt-28 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pt-24">
-        {/* ── copy ── */}
-        <div className="max-w-xl">
-          <motion.span
-            {...rise(0)}
-            className="inline-flex items-center gap-2 rounded-full border border-green-light/40 bg-green-dark px-4 py-1.5 text-[12px] font-600 uppercase tracking-[0.14em] text-green-light"
-          >
-            <ShieldCheck weight="fill" className="size-4" />
-            Guía definitiva para propietarios
-          </motion.span>
+      <div className="relative mx-auto grid min-h-[100dvh] max-w-7xl grid-cols-1 items-center gap-12 px-5 pb-16 pt-28 sm:px-8 lg:grid-cols-[1.12fr_0.88fr] lg:gap-6 lg:pt-24">
+        {/* ── left: editorial copy ── */}
+        <div className="relative">
+          {/* vertical accent rule + tagline */}
+          <div className="mb-7 flex items-center gap-3">
+            <span className="h-8 w-[3px] rounded-full bg-accent-red" />
+            <span className="text-[13px] font-500 tracking-wide text-white/55">
+              Somos más que simples gestores de propiedades
+            </span>
+          </div>
 
-          <motion.h1
-            {...rise(0.08)}
-            className="mt-6 font-display text-[2.6rem] font-800 leading-[1.02] tracking-tight text-white sm:text-6xl"
-          >
-            Tu propiedad ya es buena.
+          <h1 className="font-display text-[2.7rem] font-700 leading-[1.05] tracking-tight text-white sm:text-[3.6rem]">
+            Tu propiedad ya
             <br />
-            Hacela <span className="text-accent-red">rentable</span>,{" "}
-            <span className="text-accent-gold">también.</span>
-          </motion.h1>
+            es buena. Hacela{" "}
+            <span className="border-b-4 border-turquesa text-amarillo">
+              rentable
+            </span>
+            ,<br className="hidden sm:block" />{" "}
+            <span className="text-turquesa">también.</span>
+          </h1>
 
-          <motion.p
-            {...rise(0.16)}
-            className="mt-6 max-w-md text-lg leading-relaxed text-white/70"
-          >
+          <p className="mt-6 max-w-md text-lg leading-relaxed text-white/70">
             La guía definitiva para transformar tu casa o departamento en un
             alquiler vacacional que rinde todos los meses.
-          </motion.p>
+          </p>
 
-          <motion.div
-            {...rise(0.24)}
-            className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
-          >
+          <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <CtaButton href="#comprar" pulse>
               Quiero el ebook
             </CtaButton>
@@ -75,31 +70,40 @@ export function Hero() {
               Ver qué incluye
               <ArrowDown weight="bold" className="size-4" />
             </a>
-          </motion.div>
+          </div>
+
+          {/* mini table-of-contents — scannable value, breaks the plain stack */}
+          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-white/10 pt-6">
+            {MINI.map((item) => (
+              <li key={item} className="flex items-center gap-2 text-sm text-white/70">
+                <Check weight="bold" className="size-4 text-turquesa" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* ── cover ── */}
-        <motion.div
-          {...(reduce
-            ? {}
-            : {
-                initial: { opacity: 0, y: 40, rotate: -3 },
-                animate: { opacity: 1, y: 0, rotate: 0 },
-                transition: { duration: 0.9, delay: 0.2, ease },
-              })}
-          className="flex justify-center lg:justify-end"
-        >
-          <motion.div
-            animate={reduce ? undefined : { y: [0, -12, 0] }}
-            transition={
-              reduce
-                ? undefined
-                : { duration: 6, repeat: Infinity, ease: "easeInOut" }
-            }
-          >
-            <EbookCover />
-          </motion.div>
-        </motion.div>
+        {/* ── right: 3D book + floating accents ── */}
+        <div className="relative flex justify-center lg:justify-end">
+          <div className="relative">
+            <Book3D />
+
+            {/* floating amarillo seal */}
+            <div className="seal-wobble absolute -right-2 -top-3 grid size-20 place-items-center rounded-full bg-amarillo text-center shadow-lg sm:-right-4">
+              <span className="font-display text-[11px] font-700 uppercase leading-tight tracking-tight text-[#4a4408]">
+                Edición
+                <br />
+                2026
+              </span>
+            </div>
+
+            {/* floating turquesa chip */}
+            <div className="absolute -left-3 bottom-8 flex items-center gap-2 rounded-full bg-turquesa px-3.5 py-2 text-[13px] font-600 text-[#083b34] shadow-lg sm:-left-8">
+              <Lightning weight="fill" className="size-4" />
+              Descarga inmediata
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

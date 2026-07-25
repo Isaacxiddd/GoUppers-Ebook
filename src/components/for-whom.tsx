@@ -36,7 +36,7 @@ export function ForWhom() {
               <li key={point} className="flex items-start gap-3.5">
                 <CheckCircle
                   weight="fill"
-                  className="mt-0.5 size-6 shrink-0 text-green-light"
+                  className="mt-0.5 size-6 shrink-0 text-turquesa"
                 />
                 <span className="text-lg leading-relaxed text-ink/85">
                   {point}

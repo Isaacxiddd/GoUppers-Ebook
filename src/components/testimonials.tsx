@@ -26,7 +26,7 @@ const TESTIMONIALS = [
     name: "Lucía Paredes",
     role: "Casa en Rocha, Uruguay",
     initials: "LP",
-    tone: "bg-green-dark",
+    tone: "bg-cobalto",
   },
 ];
 
@@ -47,7 +47,7 @@ export function Testimonials() {
               <figure className="flex h-full flex-col rounded-3xl border border-line bg-paper p-7 shadow-[0_1px_0_rgba(0,0,0,0.02)]">
                 <div className="flex gap-1" role="img" aria-label="Calificación 5 de 5 estrellas">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} weight="fill" className="size-4 text-accent-gold" />
+                    <Star key={i} weight="fill" className="size-4 text-accent-red-cta" />
                   ))}
                 </div>
                 <blockquote className="mt-5 flex-1 text-[17px] leading-relaxed text-ink/85">

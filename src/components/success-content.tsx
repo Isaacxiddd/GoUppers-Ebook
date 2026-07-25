@@ -61,8 +61,8 @@ export function SuccessContent({ sessionId }: { sessionId?: string }) {
   if (state.kind === "paid") {
     return (
       <Card>
-        <span className="grid size-16 place-items-center rounded-full bg-green-light/15">
-          <CheckCircle weight="fill" className="size-10 text-green-dark" />
+        <span className="grid size-16 place-items-center rounded-full bg-turquesa/15">
+          <CheckCircle weight="fill" className="size-10 text-turquesa" />
         </span>
         <h1 className="mt-6 font-display text-3xl font-800 tracking-tight text-ink">
           ¡Listo! Ya es tuyo.
@@ -88,7 +88,7 @@ export function SuccessContent({ sessionId }: { sessionId?: string }) {
   if (state.kind === "unpaid") {
     return (
       <Card>
-        <WarningCircle weight="fill" className="size-12 text-accent-gold" />
+        <WarningCircle weight="fill" className="size-12 text-cobalto" />
         <h1 className="mt-6 font-display text-2xl font-800 text-ink">
           El pago todavía no se confirmó
         </h1>

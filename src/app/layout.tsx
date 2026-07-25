@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Manrope } from "next/font/google";
+import { Comfortaa, Poppins } from "next/font/google";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+// Comfortaa = tipografía primaria oficial (palo seco redondeado). Solo los pesos usados.
+const comfortaa = Comfortaa({
+  variable: "--font-comfortaa",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["500", "700"],
   display: "swap",
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+// Poppins = sustituto geométrico de "Woodford Bourne" (fuente paga) para el cuerpo.
+// TODO(brand): reemplazar por Woodford Bourne real (.woff2) cuando esté disponible.
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -38,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bricolage.variable} ${manrope.variable} antialiased`}
+      className={`${comfortaa.variable} ${poppins.variable} antialiased`}
     >
       <body className="min-h-[100dvh] flex flex-col bg-paper text-ink">
         {children}

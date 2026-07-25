@@ -1,38 +1,40 @@
 @import "tailwindcss";
 
-/* ── GoUppers brand tokens (client-provided) ─────────────────────── */
+/* ── GoUppers brand tokens (official — see BRAND.md) ─────────────── */
 :root {
-  --bg-hero: #181818;      /* Negro Antracita — hero + footer */
-  --accent-red: #ff3b30;   /* highlights, icons, text-on-light, logo */
-  --accent-red-cta: #d6281f; /* deeper shade of the same red for button fills — white text passes WCAG AA (5:1) */
-  --accent-gold: #e5c042;  /* secondary highlight, cover stripe */
-  --green-dark: #1a3d36;   /* guarantee badge bg */
-  --green-light: #4ecca3;  /* guarantee badge text/border */
+  --bg-hero: #181818;         /* off-black neutral surface for hero + footer */
+  --accent-red: #f42e31;      /* Rojo Carmesí — principal: icons, fills, highlights on dark */
+  --accent-red-cta: #d81e21;  /* deeper carmesí for button fills + red text on light — white text passes WCAG AA (5:1) */
+  --salmon: #f17d7d;          /* Salmón */
+  --turquesa: #27d0ba;        /* Turquesa — secondary accent (guarantee, checks) */
+  --cobalto: #0086da;         /* Azul Cobalto */
+  --amarillo: #f5ed63;        /* Amarillo Cítrico — highlight on dark, cover stripe */
   --white: #ffffff;
 
-  /* neutrals derived to stay in the warm-anthracite family */
-  --ink: #16181a;          /* near-black body text (not pure #000) */
-  --paper: #ffffff;        /* light page background */
-  --paper-2: #f6f5f3;      /* subtle section tint */
-  --muted: #5b5f63;        /* secondary text */
-  --line: #e7e5e1;         /* hairline borders */
+  /* neutrals from the brand grey scale (#ebebeb / #545454 family) */
+  --ink: #1a1a1a;             /* near-black body text (not pure #000) */
+  --paper: #ffffff;           /* light page background */
+  --paper-2: #f6f6f6;         /* subtle section tint (near Gris Plata) */
+  --muted: #545454;           /* Gris oscuro — secondary text */
+  --line: #e6e6e6;            /* hairline borders (Gris Plata) */
 }
 
 @theme inline {
   --color-bg-hero: var(--bg-hero);
   --color-accent-red: var(--accent-red);
   --color-accent-red-cta: var(--accent-red-cta);
-  --color-accent-gold: var(--accent-gold);
-  --color-green-dark: var(--green-dark);
-  --color-green-light: var(--green-light);
+  --color-salmon: var(--salmon);
+  --color-turquesa: var(--turquesa);
+  --color-cobalto: var(--cobalto);
+  --color-amarillo: var(--amarillo);
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
   --color-muted: var(--muted);
   --color-line: var(--line);
 
-  --font-display: var(--font-bricolage);
-  --font-sans: var(--font-manrope);
+  --font-display: var(--font-comfortaa);
+  --font-sans: var(--font-poppins);
 }
 
 html {
@@ -57,7 +59,17 @@ body {
   animation: cta-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
+/* Floating seal wobble — CSS only, no JS cost. */
+@keyframes seal-wobble {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+.seal-wobble {
+  animation: seal-wobble 7s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cta-pulse { animation: none; }
+  .seal-wobble { animation: none; }
 }

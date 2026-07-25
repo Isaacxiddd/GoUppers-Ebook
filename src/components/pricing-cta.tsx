@@ -29,8 +29,8 @@ export function PricingCta() {
                 <ul className="mt-8 space-y-3.5">
                   {INCLUDES.map((item) => (
                     <li key={item} className="flex items-start gap-3">
-                      <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-green-light/20">
-                        <Check weight="bold" className="size-3.5 text-green-light" />
+                      <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-turquesa/20">
+                        <Check weight="bold" className="size-3.5 text-turquesa" />
                       </span>
                       <span className="text-[15px] text-white/80">{item}</span>
                     </li>
@@ -55,9 +55,9 @@ export function PricingCta() {
 
                 <div className="mt-8">
                   <PurchaseButton label="Comprar ahora" />
-                  <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-green-light/30 bg-green-dark/60 px-3 py-2.5">
-                    <ShieldCheck weight="fill" className="size-4 shrink-0 text-green-light" />
-                    <span className="text-[13px] font-500 text-green-light">
+                  <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-turquesa/30 bg-turquesa/10 px-3 py-2.5">
+                    <ShieldCheck weight="fill" className="size-4 shrink-0 text-turquesa" />
+                    <span className="text-[13px] font-500 text-turquesa">
                       Garantía de 7 días o te devolvemos el dinero
                     </span>
                   </div>

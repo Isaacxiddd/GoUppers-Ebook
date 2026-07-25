@@ -19,7 +19,7 @@ export function Benefits() {
           {/* A — wide, dark */}
           <RevealItem className="md:col-span-2">
             <article className="flex h-full flex-col justify-between rounded-3xl bg-ink p-8 text-white sm:p-10">
-              <CurrencyDollar weight="duotone" className="size-9 text-accent-gold" />
+              <CurrencyDollar weight="duotone" className="size-9 text-turquesa" />
               <div className="mt-16">
                 <h3 className="font-display text-2xl font-700 tracking-tight sm:text-3xl">
                   Precios que llenan el calendario
@@ -34,7 +34,7 @@ export function Benefits() {
 
           {/* B — gold tinted */}
           <RevealItem>
-            <article className="flex h-full flex-col justify-between rounded-3xl border border-accent-gold/40 bg-accent-gold/12 p-8">
+            <article className="flex h-full flex-col justify-between rounded-3xl border border-amarillo/60 bg-amarillo/15 p-8">
               <Camera weight="duotone" className="size-9 text-ink" />
               <div className="mt-16">
                 <h3 className="font-display text-2xl font-700 tracking-tight text-ink">
@@ -75,7 +75,7 @@ export function Benefits() {
             <article className="flex h-full flex-col justify-between rounded-3xl border border-line bg-paper-2 p-8 sm:p-10">
               <div className="flex items-center gap-2">
                 <ChartLineUp weight="duotone" className="size-9 text-accent-red" />
-                <Star weight="fill" className="size-6 text-accent-gold" />
+                <Star weight="fill" className="size-6 text-accent-red-cta" />
               </div>
               <div className="mt-16">
                 <h3 className="font-display text-2xl font-700 tracking-tight text-ink sm:text-3xl">
