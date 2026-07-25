@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { createEbookDownloadUrl } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== "paid") {
       return NextResponse.json({ status: "unpaid" }, { status: 402 });

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe, STRIPE_PRICE_ID, APP_URL } from "@/lib/stripe";
+import { getStripe, STRIPE_PRICE_ID, APP_URL } from "@/lib/stripe";
 
 // Stripe SDK needs the Node runtime (not edge).
 export const runtime = "nodejs";
@@ -8,7 +8,7 @@ export const runtime = "nodejs";
  *  STRIPE_PRICE_ID — the client sends no amount (NEGOCIO.md #1). */
 export async function POST() {
   try {
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: STRIPE_PRICE_ID(), quantity: 1 }],
       success_url: `${APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { stripe, STRIPE_WEBHOOK_SECRET } from "@/lib/stripe";
+import { getStripe, STRIPE_WEBHOOK_SECRET } from "@/lib/stripe";
 
 export const runtime = "nodejs";
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(
+    event = getStripe().webhooks.constructEvent(
       rawBody,
       signature,
       STRIPE_WEBHOOK_SECRET(),
