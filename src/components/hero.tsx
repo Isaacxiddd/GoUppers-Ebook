@@ -1,4 +1,4 @@
-import { Lightning } from "@phosphor-icons/react/dist/ssr";
+import { Lightning, Star, ShieldCheck, CreditCard } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 import { BookScrollScene } from "@/components/book-scroll-scene";
 
@@ -42,17 +42,37 @@ export function Hero() {
             </CtaButton>
           </div>
 
-          <div className="flex flex-col items-center gap-2 text-sm text-white/40">
-            <div className="flex items-center gap-1">
-              {"★★★★★".split("").map((s, i) => (
-                <span key={i} className="text-amarillo">{s}</span>
-              ))}
-              <span className="ml-1">400+ propiedades administradas por GoUppers</span>
+          {/* ── Trust strip: stars + social proof + security ── */}
+          <div className="flex flex-col items-center gap-3">
+            {/* Stars + rating */}
+            <div className="flex items-center gap-2">
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} weight="fill" className="size-4 text-amarillo" />
+                ))}
+              </div>
+              <span className="text-sm font-600 text-white/70">4.9/5</span>
+              <span className="text-sm text-white/40">·</span>
+              <span className="text-sm text-white/50">400+ propiedades</span>
             </div>
-            <span className="flex items-center gap-2">
-              <Lightning weight="fill" className="size-3.5 text-turquesa" />
-              Descarga instantánea · Sin suscripciones · Pago seguro
-            </span>
+
+            {/* Trust badges row */}
+            <div className="flex items-center gap-4 text-xs text-white/40">
+              <span className="flex items-center gap-1.5">
+                <Lightning weight="fill" className="size-3.5 text-turquesa" />
+                Descarga instantánea
+              </span>
+              <span className="h-3 w-px bg-white/15" />
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck weight="duotone" className="size-3.5 text-turquesa" />
+                Pago seguro
+              </span>
+              <span className="h-3 w-px bg-white/15" />
+              <span className="flex items-center gap-1.5">
+                <CreditCard weight="duotone" className="size-3.5 text-turquesa" />
+                Sin suscripciones
+              </span>
+            </div>
           </div>
         </div>
       </section>
