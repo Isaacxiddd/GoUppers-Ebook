@@ -33,13 +33,13 @@ export function Hero() {
           </h1>
 
           <p className="max-w-md text-base leading-relaxed text-white/65 sm:text-lg">
-            La guía definitiva para transformar tu casa o departamento en un
-            alquiler vacacional que rinde todos los meses.
+            La guía de GoUppers para que tengas el sistema completo a mano:
+            pasos, números y plantillas que ya funcionan en 60+ ciudades.
           </p>
 
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <CtaButton href="#comprar" pulse>
-              Quiero el ebook
+              Obtener mi guía
             </CtaButton>
             <a
               href="#beneficios"
@@ -50,9 +50,17 @@ export function Hero() {
             </a>
           </div>
 
-          <div className="flex items-center gap-3 text-sm text-white/40">
-            <Lightning weight="fill" className="size-3.5 text-turquesa" />
-            Descarga inmediata
+          <div className="flex flex-col items-center gap-2 text-sm text-white/40">
+            <div className="flex items-center gap-1">
+              {"★★★★★".split("").map((s, i) => (
+                <span key={i} className="text-amarillo">{s}</span>
+              ))}
+              <span className="ml-1">Basada en +130 mentorías y 400+ propiedades</span>
+            </div>
+            <span className="flex items-center gap-2">
+              <Lightning weight="fill" className="size-3.5 text-turquesa" />
+              Descarga instantánea · PDF + plantillas · Pago seguro
+            </span>
           </div>
         </div>
       </section>

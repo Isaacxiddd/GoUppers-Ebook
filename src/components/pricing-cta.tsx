@@ -20,9 +20,9 @@ export function PricingCta() {
               {/* left: what you get */}
               <div>
                 <h2 className="font-display text-3xl font-800 leading-[1.05] tracking-tight sm:text-4xl">
-                  Llévate el sistema
+                  Llevá el sistema GoUppers
                   <br />
-                  completo hoy.
+                  a donde quieras.
                 </h2>
                 <p className="mt-3 text-white/60">{PRODUCT.subtitle}.</p>
 
@@ -42,7 +42,8 @@ export function PricingCta() {
               <div className="flex flex-col justify-between rounded-2xl bg-white/5 p-7 ring-1 ring-white/10">
                 <div>
                   <p className="text-sm font-500 text-white/55">Pago único</p>
-                  <p className="mt-1 flex items-baseline gap-1">
+                  <p className="mt-1 flex items-baseline gap-2">
+                    <span className="text-lg text-white/35 line-through">USD 79+</span>
                     <span className="font-display text-5xl font-800 tracking-tight">
                       {priceLabel}
                     </span>
@@ -54,7 +55,10 @@ export function PricingCta() {
                 </div>
 
                 <div className="mt-8">
-                  <PurchaseButton label="Comprar ahora" />
+                  <PurchaseButton label="Obtener mi guía ahora" />
+                  <p className="mt-3 text-center text-xs text-white/40">
+                    PDF + plantillas descargables · Acceso inmediato
+                  </p>
                 </div>
               </div>
             </div>
