@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Comfortaa, Poppins } from "next/font/google";
+import { Comfortaa, DM_Sans, Great_Vibes } from "next/font/google";
 import "./globals.css";
 
-// Comfortaa = tipografía primaria oficial (palo seco redondeado). Solo los pesos usados.
+// Comfortaa = tipografía primaria oficial (palo seco redondeado).
 const comfortaa = Comfortaa({
   variable: "--font-comfortaa",
   subsets: ["latin"],
@@ -10,12 +10,21 @@ const comfortaa = Comfortaa({
   display: "swap",
 });
 
-// Poppins = sustituto geométrico de "Woodford Bourne" (fuente paga) para el cuerpo.
-// TODO(brand): reemplazar por Woodford Bourne real (.woff2) cuando esté disponible.
-const poppins = Poppins({
-  variable: "--font-poppins",
+// DM Sans = sustituto gratuito de "Woodford Bourne" (fuente paga).
+// Geométrico, limpio, corporativo — el más cercano en espíritu.
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// Great Vibes = sustituto gratuito de "Billie Signature" (cursiva/caligráfica).
+// Solo para acentos y palabras clave dentro de títulos.
+const greatVibes = Great_Vibes({
+  variable: "--font-great-vibes",
+  subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -48,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${comfortaa.variable} ${poppins.variable} antialiased`}
+      className={`${comfortaa.variable} ${dmSans.variable} ${greatVibes.variable} antialiased`}
     >
       <body className="min-h-[100dvh] flex flex-col bg-paper text-ink">
         {children}

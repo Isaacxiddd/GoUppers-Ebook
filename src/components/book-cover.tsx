@@ -1,4 +1,3 @@
-import { HouseLine } from "@phosphor-icons/react/dist/ssr";
 
 const THICK = 48; // page-block depth (px)
 
@@ -113,7 +112,10 @@ export function BookCover() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="grid size-8 place-items-center rounded-lg bg-white/15 ring-1 ring-white/25">
-                    <HouseLine weight="fill" className="size-5 text-white" />
+                    <svg viewBox="0 0 3330 3840" className="size-5" fill="white">
+                      <path d="M540 3060 c-20 -20 -20 -33 -20 -873 0 -801 1 -855 18 -870 30 -28 65 -30 95 -7 l27 21 2 802 3 802 1003 3 1002 2 0 -803 0 -804 23 -21 c30 -29 62 -28 92 3 l25 24 0 849 c0 840 0 848 -20 870 l-21 22 -1104 0 c-1092 0 -1105 0 -1125 -20z" />
+                      <path d="M1609 2288 l-22 -23 7 -788 c3 -446 2 -787 -3 -785 -5 2 -125 117 -267 255 -276 271 -288 279 -334 233 -44 -44 -33 -63 157 -249 98 -96 248 -243 333 -327 101 -100 165 -155 184 -160 28 -7 43 6 320 288 371 376 376 382 376 413 0 30 -40 75 -67 75 -9 0 -138 -120 -285 -267 -147 -147 -269 -265 -270 -263 -1 3 -5 360 -8 793 l-5 789 -24 19 c-31 25 -65 24 -92 -3z" />
+                    </svg>
                   </span>
                   <span className="font-display text-lg font-700 tracking-tight text-white">
                     GoUppers

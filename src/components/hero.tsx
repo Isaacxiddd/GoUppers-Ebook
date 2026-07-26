@@ -9,18 +9,8 @@ export function Hero() {
     <>
       {/* ── Top bar: title + CTA (always visible above the scroll scene) ── */}
       <section
-        className="relative overflow-hidden pb-8 pt-36 sm:pt-32"
-        style={{ background: "var(--bg-hero)" }}
+        className="hero-bg relative overflow-hidden pb-8 pt-36 sm:pt-32"
       >
-        {/* brand glow */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-32 top-1/4 h-[420px] w-[420px] rounded-full opacity-30"
-          style={{
-            background:
-              "radial-gradient(circle,rgba(244,46,49,0.9) 0%,transparent 62%)",
-          }}
-        />
 
         <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-7 px-5 text-center sm:px-8">
           <h1 className="font-display text-[2.4rem] font-700 leading-[1.04] tracking-tight text-white sm:text-[3.2rem]">

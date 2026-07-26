@@ -159,10 +159,14 @@ export function BookScrollScene() {
     [0.38, 0.46, 0.7, 0.8],
     [0, 1, 1, 0],
   );
-  const textTopX = useTransform(
+  const textTopSlideX = useTransform(
     progress,
     [0.38, 0.46, 0.7, 0.8],
     [30, 0, 0, 20],
+  );
+  const textTopX = useTransform(
+    [bookShiftX, textTopSlideX],
+    ([bx, tx]) => bx + tx,
   );
 
   /* ── Text: bottom-right ── */
@@ -171,10 +175,14 @@ export function BookScrollScene() {
     [0.44, 0.52, 0.72, 0.82],
     [0, 1, 1, 0],
   );
-  const textBottomX = useTransform(
+  const textBottomSlideX = useTransform(
     progress,
     [0.44, 0.52, 0.72, 0.82],
     [30, 0, 0, 20],
+  );
+  const textBottomX = useTransform(
+    [bookShiftX, textBottomSlideX],
+    ([bx, tx]) => bx + tx,
   );
 
   /* ── Text: below book ── */
@@ -219,26 +227,9 @@ export function BookScrollScene() {
     <section
       ref={containerRef}
       data-book="closed"
-      className="relative overflow-hidden"
-      style={{ height: "100vh", background: "var(--bg-hero)", touchAction: "manipulation" }}
+      className="hero-bg relative overflow-hidden"
+      style={{ height: "100vh", touchAction: "manipulation" }}
     >
-      {/* brand glows */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-32 top-1/4 h-[620px] w-[620px] rounded-full opacity-35"
-        style={{
-          background:
-            "radial-gradient(circle,rgba(244,46,49,0.9) 0%,transparent 62%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full opacity-20"
-        style={{
-          background:
-            "radial-gradient(circle,rgba(39,208,186,0.9) 0%,transparent 62%)",
-        }}
-      />
       <span
         aria-hidden
         className="pointer-events-none absolute -bottom-8 left-2 select-none font-display text-[26vw] font-700 leading-none tracking-tighter text-white/[0.03] sm:text-[20vw]"
@@ -297,9 +288,10 @@ export function BookScrollScene() {
               <div className="relative flex h-full flex-col items-center justify-between p-7">
                 <div className="mt-8 flex flex-col items-center gap-3">
                   <span className="grid size-10 place-items-center rounded-xl bg-white/15 ring-1 ring-white/25">
-                    <span className="font-display text-lg font-700 text-white">
-                      G
-                    </span>
+                    <svg viewBox="0 0 3330 3840" className="size-6" fill="white">
+                      <path d="M540 3060 c-20 -20 -20 -33 -20 -873 0 -801 1 -855 18 -870 30 -28 65 -30 95 -7 l27 21 2 802 3 802 1003 3 1002 2 0 -803 0 -804 23 -21 c30 -29 62 -28 92 3 l25 24 0 849 c0 840 0 848 -20 870 l-21 22 -1104 0 c-1092 0 -1105 0 -1125 -20z" />
+                      <path d="M1609 2288 l-22 -23 7 -788 c3 -446 2 -787 -3 -785 -5 2 -125 117 -267 255 -276 271 -288 279 -334 233 -44 -44 -33 -63 157 -249 98 -96 248 -243 333 -327 101 -100 165 -155 184 -160 28 -7 43 6 320 288 371 376 376 382 376 413 0 30 -40 75 -67 75 -9 0 -138 -120 -285 -267 -147 -147 -269 -265 -270 -263 -1 3 -5 360 -8 793 l-5 789 -24 19 c-31 25 -65 24 -92 -3z" />
+                    </svg>
                   </span>
                   <span className="font-display text-sm font-700 tracking-tight text-white">
                     GoUppers
@@ -441,7 +433,35 @@ export function BookScrollScene() {
                       background: `linear-gradient(180deg, rgb(${245 - i * 4},${240 - i * 4},${230 - i * 4}), rgb(${250 - i * 3},${246 - i * 3},${238 - i * 3}))`,
                       boxShadow: `0 1px 3px rgba(0,0,${0.04 + i * 0.008}), inset -2px 0 6px rgba(0,0,0,${0.02 + i * 0.005})`,
                     }}
-                  />
+                  >
+                    {/* Mini table of contents on first visible page */}
+                    {i === 0 && (
+                      <div className="flex h-full flex-col p-8 pt-10">
+                        <span className="mb-1 text-[8px] font-600 uppercase tracking-[0.18em] text-[#b0a594]">
+                          Vista previa
+                        </span>
+                        <div className="mt-3 h-px w-12 bg-[#d4c9b8]" />
+                        <ul className="mt-4 flex flex-col gap-3">
+                          {[
+                            "Configuración inicial",
+                            "Pricing y tarifas",
+                            "Fotos que venden",
+                            "Automatización",
+                          ].map((item) => (
+                            <li
+                              key={item}
+                              className="flex items-center gap-2 text-[11px] leading-snug text-[#6b5e4f]"
+                            >
+                              <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-turquesa/15 text-[9px] text-turquesa">
+                                ✓
+                              </span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               </div>
             ))}
@@ -504,9 +524,10 @@ export function BookScrollScene() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="grid size-8 place-items-center rounded-lg bg-white/15 ring-1 ring-white/25">
-                          <span className="font-display text-sm font-700 text-white">
-                            G
-                          </span>
+                          <svg viewBox="0 0 3330 3840" className="size-5" fill="white">
+                            <path d="M540 3060 c-20 -20 -20 -33 -20 -873 0 -801 1 -855 18 -870 30 -28 65 -30 95 -7 l27 21 2 802 3 802 1003 3 1002 2 0 -803 0 -804 23 -21 c30 -29 62 -28 92 3 l25 24 0 849 c0 840 0 848 -20 870 l-21 22 -1104 0 c-1092 0 -1105 0 -1125 -20z" />
+                            <path d="M1609 2288 l-22 -23 7 -788 c3 -446 2 -787 -3 -785 -5 2 -125 117 -267 255 -276 271 -288 279 -334 233 -44 -44 -33 -63 157 -249 98 -96 248 -243 333 -327 101 -100 165 -155 184 -160 28 -7 43 6 320 288 371 376 376 382 376 413 0 30 -40 75 -67 75 -9 0 -138 -120 -285 -267 -147 -147 -269 -265 -270 -263 -1 3 -5 360 -8 793 l-5 789 -24 19 c-31 25 -65 24 -92 -3z" />
+                          </svg>
                         </span>
                         <span className="font-display text-lg font-700 tracking-tight text-white">
                           GoUppers
