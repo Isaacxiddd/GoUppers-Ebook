@@ -132,8 +132,6 @@ export function BookScrollScene() {
   const bookRotateY = useTransform(progress, [0, 0.12, 0.4], [-20, -12, -12]);
   const bookRotateX = useTransform(progress, [0, 0.12], [6, 0]);
   const bookY = useTransform(progress, [0, 0.12], [30, 0]);
-  const bookX = useTransform(progress, [0, 0.12],
-    isMobile ? [12, 16] : [0, 0]);
 
   /* cover opening: 0° closed → -165° fully open */
   const coverRotate = useTransform(progress, [0.15, 0.45], [0, -165], {
@@ -249,7 +247,6 @@ export function BookScrollScene() {
               rotateY: bookRotateY,
               rotateX: bookRotateX,
               y: bookY,
-              x: bookX,
             }}
           >
             {/* contact shadow */}
