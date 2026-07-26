@@ -127,7 +127,8 @@ export function BookScrollScene() {
   }, []);
 
   /* ── Book transforms ───────────────────────────────────────────── */
-  const bookScale = useTransform(progress, [0, 0.12, 0.4], [0.7, 1, 1]);
+  const bookScale = useTransform(progress, [0, 0.12, 0.4],
+    isMobile ? [0.85, 0.6, 0.6] : [0.7, 1, 1]);
   const bookRotateY = useTransform(progress, [0, 0.12, 0.4], [-20, -12, -12]);
   const bookRotateX = useTransform(progress, [0, 0.12], [6, 0]);
   const bookY = useTransform(progress, [0, 0.12], [30, 0]);
