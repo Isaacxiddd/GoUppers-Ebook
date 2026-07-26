@@ -143,7 +143,7 @@ export function BookScrollScene() {
     const rad = (angle * Math.PI) / 180;
     /* Book is centered, cover extends from left edge. Combined visual center
        shifts left by ~(W*(1-cosθ))/4. Shift right to compensate. */
-    return (BOOK_WIDTH * (1 - Math.cos(rad))) / 4;
+    return (BOOK_WIDTH * (1 - Math.cos(rad))) / 6;
   });
 
   /* glare fades as cover opens */
