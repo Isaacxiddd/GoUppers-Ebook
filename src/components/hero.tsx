@@ -1,4 +1,4 @@
-import { ArrowDown, Lightning } from "@phosphor-icons/react/dist/ssr";
+import { Lightning } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 import { BookScrollScene } from "@/components/book-scroll-scene";
 
@@ -24,12 +24,11 @@ export function Hero() {
 
         <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-7 px-5 text-center sm:px-8">
           <h1 className="font-display text-[2.4rem] font-700 leading-[1.04] tracking-tight text-white sm:text-[3.2rem]">
-            Tu propiedad ya
+            Tu propiedad vacía
             <br />
-            es buena. Hazla{" "}
-            <span className="text-amarillo">rentable</span>,
+            puede <span className="text-amarillo">facturar</span>{" "}
             <br className="hidden sm:block" />{" "}
-            <span className="text-turquesa">también.</span>
+            <span className="text-turquesa">en 30 días.</span>
           </h1>
 
           <p className="max-w-md text-base leading-relaxed text-white/65 sm:text-lg">
@@ -37,17 +36,10 @@ export function Hero() {
             pasos, números y plantillas que ya funcionan en 60+ ciudades.
           </p>
 
-          <div className="flex flex-col items-center gap-4 sm:flex-row">
+          <div className="flex flex-col items-center gap-4">
             <CtaButton href="#comprar" pulse>
-              Obtener mi guía
+              Empezar a facturar
             </CtaButton>
-            <a
-              href="#beneficios"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-4 text-base font-600 text-white/85 transition-colors hover:border-white/40 hover:text-white"
-            >
-              Ver qué incluye
-              <ArrowDown weight="bold" className="size-4" />
-            </a>
           </div>
 
           <div className="flex flex-col items-center gap-2 text-sm text-white/40">
@@ -55,11 +47,11 @@ export function Hero() {
               {"★★★★★".split("").map((s, i) => (
                 <span key={i} className="text-amarillo">{s}</span>
               ))}
-              <span className="ml-1">Basada en +130 mentorías y 400+ propiedades</span>
+              <span className="ml-1">400+ propiedades administradas por GoUppers</span>
             </div>
             <span className="flex items-center gap-2">
               <Lightning weight="fill" className="size-3.5 text-turquesa" />
-              Descarga instantánea · PDF + plantillas · Pago seguro
+              Descarga instantánea · Sin suscripciones · Pago seguro
             </span>
           </div>
         </div>
