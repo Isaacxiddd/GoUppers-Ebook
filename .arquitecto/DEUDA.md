@@ -16,6 +16,7 @@
 - [2026-07-24] [deliberada] **Webhook solo loguea (sin persistencia ni email).** La entrega real ocurre en `GET /api/session` verificando `paid` contra Stripe; el webhook confirma firma y registra. — Interés: si el comprador cierra `/success` no hay reenvío automático del PDF. — Condición de pago: agregar envío de email con el link (o tabla `orders`) cuando se priorice resiliencia post-compra.
 - [2026-07-24] [deliberada] **Descarga = signed URL de 30 min, sin límite de usos.** — Interés: dentro de esa ventana el link es compartible. — Condición de pago: aceptable para un ebook; si se detecta abuso, bajar expiración o mover a entrega por email con token de un solo uso.
 - [2026-07-24] [accidental→aceptada] **Flujo de pago no verificado end-to-end.** Guardas de rutas y firma probados con claves placeholder; falta correr compra real. — Interés: puede haber un desajuste de config (bucket/path/Price) solo visible con credenciales vivas. — Condición de pago: prueba e2e en FASE 5 con claves de GoUppers.
+- [2026-07-26] [accidental→corregida] **Scroll-hijack: dead zone de 15.5% entre último keyframe (p=0.84) y stop point (p=0.995).** — Interés: usuario atrapado, no podía scrollear past la sección del libro. — Condición de pago: RESUELTA — stop points alineados a p=0.86, snap a 0/1, fallback viewport.
 
 ---
-*Creado: 2026-07-24 · Última actualización: 2026-07-24 (FASE 1)*
+*Creado: 2026-07-24 · Última actualización: 2026-07-26*

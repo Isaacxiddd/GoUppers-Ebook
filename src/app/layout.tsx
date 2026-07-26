@@ -19,10 +19,17 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const FALLBACK_URL = "http://localhost:3000";
+function metadataBase(): URL {
+  try {
+    return new URL((process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_URL).trim());
+  } catch {
+    return new URL(FALLBACK_URL);
+  }
+}
 
 export const metadata: Metadata = {
-  metadataBase: new URL(APP_URL),
+  metadataBase: metadataBase(),
   title: "Guía para propietarios | GoUppers",
   description:
     "La guía definitiva para convertir tu propiedad en un alquiler vacacional que genera ingresos todos los meses. Estrategias probadas de GoUppers.",

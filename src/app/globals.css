@@ -82,6 +82,11 @@ body {
   transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform;
 }
+/* Scroll-driven variant: Framer Motion controls transforms, no CSS defaults.
+   Only keep will-change for GPU compositing. */
+.book-card-scroll {
+  will-change: transform;
+}
 .book-glare {
   background: radial-gradient(
     circle at var(--gx, 28%) var(--gy, 16%),
@@ -90,6 +95,16 @@ body {
     transparent 60%
   );
   transition: background 0.2s ease-out;
+}
+
+/* Scroll scene — perspective for the 3D book */
+.book-scroll-perspective {
+  perspective: 1500px;
+}
+@media (max-width: 640px) {
+  .book-scroll-perspective {
+    perspective: 1000px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .book-card { transition: none; }
