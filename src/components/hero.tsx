@@ -53,8 +53,6 @@ export function Hero() {
           <div className="flex items-center gap-3 text-sm text-white/40">
             <Lightning weight="fill" className="size-3.5 text-turquesa" />
             Descarga inmediata
-            <span className="text-white/20">·</span>
-            Garantía de 7 días
           </div>
         </div>
       </section>
