@@ -205,9 +205,20 @@ export function BookScrollScene() {
   const shadowScale = useTransform(progress, [0, 0.12, 0.4], [0.6, 1, 1]);
   const shadowOpacity = useTransform(progress, [0, 0.12], [0.3, 0.55]);
 
+  /* ── data attribute for testing: "closed" | "opening" | "open" ── */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const unsub = progress.on("change", (p) => {
+      el.dataset.book = p < 0.02 ? "closed" : p > 0.86 ? "open" : "opening";
+    });
+    return unsub;
+  }, []);
+
   return (
     <section
       ref={containerRef}
+      data-book="closed"
       className="relative overflow-hidden"
       style={{ height: "100vh", background: "var(--bg-hero)", touchAction: "manipulation" }}
     >
