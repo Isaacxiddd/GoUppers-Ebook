@@ -1,4 +1,4 @@
-import { Check, ShieldCheck, FilePdf } from "@phosphor-icons/react/dist/ssr";
+import { Check, FilePdf } from "@phosphor-icons/react/dist/ssr";
 import { PurchaseButton } from "@/components/purchase-button";
 import { Reveal } from "@/components/ui/reveal";
 import { PRODUCT, priceLabel } from "@/lib/product";
@@ -55,12 +55,6 @@ export function PricingCta() {
 
                 <div className="mt-8">
                   <PurchaseButton label="Comprar ahora" />
-                  <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-turquesa/30 bg-turquesa/10 px-3 py-2.5">
-                    <ShieldCheck weight="fill" className="size-4 shrink-0 text-turquesa" />
-                    <span className="text-[13px] font-500 text-turquesa">
-                      Garantía de 7 días o te devolvemos el dinero
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>

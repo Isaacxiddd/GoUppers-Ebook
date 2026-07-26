@@ -560,7 +560,7 @@ export function BookScrollScene() {
 
           {/* ═══ TEXT TOP — above book on mobile, right side on desktop ═══ */}
           <motion.div
-            className="pointer-events-none absolute left-1/2 bottom-[calc(100%+3.5rem)] w-56 -translate-x-1/2 text-center sm:bottom-auto sm:left-auto sm:top-0 sm:w-52 sm:-translate-x-0 sm:text-left lg:-right-[280px] lg:w-60"
+            className="pointer-events-none absolute left-1/2 bottom-[calc(100%+1.5rem)] w-56 -translate-x-1/2 text-center sm:bottom-auto sm:left-auto sm:top-0 sm:w-52 sm:-translate-x-0 sm:text-left lg:-right-[280px] lg:w-60"
             style={{ opacity: textTopOpacity, x: textTopX }}
           >
             <span className="mb-2 inline-block rounded-full bg-amarillo/15 px-3 py-1 text-[10px] font-600 uppercase tracking-[0.15em] text-amarillo">
@@ -594,7 +594,7 @@ export function BookScrollScene() {
 
           {/* ═══ TEXT BELOW BOOK ═══ */}
           <motion.div
-            className="pointer-events-none absolute left-1/2 top-[calc(100%+2rem)] w-56 -translate-x-1/2 text-center sm:w-64"
+            className="pointer-events-none absolute left-1/2 top-[calc(100%+1rem)] w-56 -translate-x-1/2 text-center sm:w-64"
             style={{ opacity: textBelowOpacity, y: textBelowY }}
           >
             <span className="mb-2 inline-block rounded-full bg-salmon/15 px-3 py-1 text-[10px] font-600 uppercase tracking-[0.15em] text-salmon">
