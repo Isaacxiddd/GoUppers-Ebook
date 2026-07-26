@@ -138,6 +138,12 @@ export function BookScrollScene() {
     clamp: true,
   });
 
+  /* re-center: cover opens left → shift book right proportionally */
+  const bookShiftX = useTransform(coverRotate, (angle) => {
+    const rad = (angle * Math.PI) / 180;
+    return (BOOK_WIDTH / 2) * (1 - Math.cos(rad));
+  });
+
   /* glare fades as cover opens */
   const glareOpacity = useTransform(progress, [0.12, 0.35], [1, 0], {
     clamp: true,
@@ -247,6 +253,7 @@ export function BookScrollScene() {
               rotateY: bookRotateY,
               rotateX: bookRotateX,
               y: bookY,
+              x: bookShiftX,
             }}
           >
             {/* contact shadow */}
