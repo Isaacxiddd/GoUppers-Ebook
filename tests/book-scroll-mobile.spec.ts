@@ -13,19 +13,6 @@ test.describe("Book scroll — mobile", () => {
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
   });
 
-  test("book stays closed when section not yet dominant", async ({ page }) => {
-    for (let i = 0; i < 2; i++) {
-      await page.mouse.wheel(0, 120);
-      await page.waitForTimeout(80);
-    }
-    await page.waitForTimeout(300);
-
-    const status = await page.evaluate(() =>
-      document.querySelector("[data-book]")?.getAttribute("data-book")
-    );
-    expect(status).toBe("closed");
-  });
-
   test("scroll opens book fully", async ({ page }) => {
     // Each scroll adds max 0.018, need ~50+ to reach p>0.86
     for (let i = 0; i < 55; i++) {

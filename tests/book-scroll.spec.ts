@@ -71,4 +71,33 @@ test.describe("Book scroll scene", () => {
     // Allow some tolerance since wheel events have delta
     expect(Math.abs(scrollYAfter - scrollY)).toBeLessThan(200);
   });
+
+  test("side texts do not overlap with the book", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    await page.waitForTimeout(500);
+
+    // Scroll to show side texts (~60% progress)
+    for (let i = 0; i < 50; i++) {
+      await page.mouse.wheel(0, 120);
+      await page.waitForTimeout(25);
+    }
+    await page.waitForTimeout(500);
+
+    // Get bounding boxes
+    const bookBox = await page.locator(".book-card-scroll").first().boundingBox();
+    const topText = await page.locator("text=120+ páginas").first().boundingBox();
+    const bottomText = await page.locator("text=Bonus y recursos").first().boundingBox();
+
+    expect(bookBox).toBeTruthy();
+    expect(topText).toBeTruthy();
+    expect(bottomText).toBeTruthy();
+
+    if (bookBox && topText && bottomText) {
+      // Top text right edge must be left of book left edge (with gap)
+      expect(topText.x + topText.width).toBeLessThan(bookBox.x - 5);
+      // Bottom text right edge must be left of book left edge (with gap)
+      expect(bottomText.x + bottomText.width).toBeLessThan(bookBox.x - 5);
+    }
+  });
 });

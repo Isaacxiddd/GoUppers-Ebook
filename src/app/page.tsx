@@ -1,5 +1,5 @@
 import { SiteHeader } from "@/components/site-header";
-import { Hero } from "@/components/hero";
+import { BookScrollScene } from "@/components/book-scroll-scene";
 import { TrustStrip } from "@/components/trust-strip";
 import { Benefits } from "@/components/benefits";
 import { ForWhom } from "@/components/for-whom";
@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <SiteHeader />
       <main className="flex-1">
-        <Hero />
+        <BookScrollScene />
         <TrustStrip />
         <Benefits />
         <ForWhom />
