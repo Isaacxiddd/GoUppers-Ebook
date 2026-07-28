@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useMotionValue, useTransform } from "motion/react";
+import { motion, useMotionValue, useTransform, useMotionValueEvent } from "motion/react";
 import { Lightning, Star, ShieldCheck, CreditCard } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 
@@ -26,6 +26,13 @@ export function BookScrollScene() {
   /* ── Responsive book scale ──────────────────────────────────────────── */
   const [responsiveScale, setResponsiveScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  /* Track when book is actively animating — for dynamic will-change */
+  useMotionValueEvent(progress, "change", (latest) => {
+    const active = latest > 0.01 && latest < 0.87;
+    setIsAnimating((prev) => (prev !== active ? active : prev));
+  });
 
   useEffect(() => {
     const update = () => {
@@ -41,6 +48,8 @@ export function BookScrollScene() {
 
   /* ── Single wheel handler — hijack from the start ────────────────── */
   useEffect(() => {
+    let rafId = 0;
+
     const handleWheel = (e: WheelEvent) => {
       const section = containerRef.current;
       if (!section) return;
@@ -64,19 +73,28 @@ export function BookScrollScene() {
 
       e.preventDefault();
 
-      const raw = e.deltaY * 0.0005;
-      const delta = Math.sign(raw) * Math.min(Math.abs(raw), 0.018);
-      const next = Math.max(0, Math.min(1, p + delta));
-      progress.set(next);
+      if (rafId) return; /* already scheduled — skip this frame */
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        const p2 = progress.get();
+        const raw = e.deltaY * 0.0005;
+        const delta = Math.sign(raw) * Math.min(Math.abs(raw), 0.018);
+        const next = Math.max(0, Math.min(1, p2 + delta));
+        progress.set(next);
+      });
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   /* ── Single touch handler ──────────────────────────────────────── */
   useEffect(() => {
     let lastY = 0;
+    let rafId = 0;
 
     const onTouchStart = (e: TouchEvent) => {
       lastY = e.touches[0].clientY;
@@ -106,9 +124,14 @@ export function BookScrollScene() {
 
       e.preventDefault();
 
-      const delta = Math.sign(raw) * Math.min(Math.abs(raw), 0.018);
-      const next = Math.max(0, Math.min(1, p + delta));
-      progress.set(next);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        const p2 = progress.get();
+        const delta = Math.sign(raw) * Math.min(Math.abs(raw), 0.018);
+        const next = Math.max(0, Math.min(1, p2 + delta));
+        progress.set(next);
+      });
     };
 
     window.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -116,6 +139,7 @@ export function BookScrollScene() {
     return () => {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -271,7 +295,7 @@ export function BookScrollScene() {
 
         {/* ═══ HERO TEXT — fades out on scroll ═══ */}
         <motion.div
-          className="pointer-events-none absolute left-6 right-6 z-10 flex flex-col items-center gap-4 text-center sm:left-auto sm:right-auto sm:static sm:w-[24rem] sm:items-start sm:text-left lg:w-[28rem]"
+          className="pointer-events-none absolute left-6 right-6 top-24 z-10 flex flex-col items-center gap-4 text-center sm:left-auto sm:right-auto sm:static sm:top-auto sm:w-[24rem] sm:items-start sm:text-left lg:w-[28rem]"
           style={{ opacity: heroOpacity, x: heroX, y: heroY }}
         >
           <h1 className="font-display text-[2rem] font-700 leading-[1.04] tracking-tight text-white sm:text-[2.6rem] lg:text-[3rem]">
@@ -330,7 +354,7 @@ export function BookScrollScene() {
 
             {/* ═══ THE BOOK ═══ */}
             <motion.div
-              className="book-card-scroll relative"
+              className={`book-card-scroll relative${isAnimating ? " will-change-transform" : ""}`}
               style={{
                 width: BOOK_WIDTH,
                 height: BOOK_HEIGHT,

@@ -32,7 +32,7 @@ const TESTIMONIALS = [
 
 export function Testimonials() {
   return (
-    <section id="opiniones" className="bg-paper py-24 sm:py-32">
+    <section id="opiniones" className="lazy-section bg-paper py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <h2 className="font-display text-4xl font-800 leading-[1.05] tracking-tight text-ink sm:text-5xl">

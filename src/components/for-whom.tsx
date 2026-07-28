@@ -11,7 +11,7 @@ const POINTS = [
 
 export function ForWhom() {
   return (
-    <section id="para-quien" className="bg-paper-2 py-24 sm:py-32">
+    <section id="para-quien" className="lazy-section bg-paper-2 py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16">
         <Reveal className="order-2 lg:order-1">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl sm:aspect-[4/3] lg:aspect-[4/5]">

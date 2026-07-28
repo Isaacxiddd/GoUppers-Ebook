@@ -84,9 +84,10 @@ body {
   will-change: transform;
 }
 /* Scroll-driven variant: Framer Motion controls transforms, no CSS defaults.
-   Only keep will-change for GPU compositing. */
+   will-change applied dynamically via React state — only while animating.
+   contain isolates book rendering from rest of page. */
 .book-card-scroll {
-  will-change: transform;
+  contain: layout style;
 }
 .book-glare {
   background: radial-gradient(
@@ -118,6 +119,12 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .book-card { transition: none; }
+}
+
+/* Off-screen sections: skip layout/paint until near viewport */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 /* Floating seal wobble — CSS only, no JS cost. */

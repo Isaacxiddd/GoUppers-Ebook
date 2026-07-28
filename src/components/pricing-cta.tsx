@@ -12,7 +12,7 @@ const INCLUDES = [
 
 export function PricingCta() {
   return (
-    <section id="comprar" className="bg-paper-2 py-24 sm:py-32">
+    <section id="comprar" className="lazy-section bg-paper-2 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
           <div className="overflow-hidden rounded-[2rem] bg-ink text-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.5)]">

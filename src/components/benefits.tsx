@@ -4,7 +4,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 export function Benefits() {
   return (
-    <section id="beneficios" className="bg-paper py-24 sm:py-32">
+    <section id="beneficios" className="lazy-section bg-paper py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-700 uppercase tracking-[0.16em] text-accent-red-cta">
