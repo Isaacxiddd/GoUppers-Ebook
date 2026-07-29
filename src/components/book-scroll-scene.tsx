@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useMotionValueEvent } from "motion/react";
 import { Lightning, Star, ShieldCheck, CreditCard } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
@@ -821,6 +821,19 @@ export function BookScrollScene() {
           ingresos todos los meses, sin estrés.
         </p>
       </motion.div>
+
+      {/* Debug: progress value */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <button
+          onClick={() => {
+            const v = progress.get().toFixed(3);
+            navigator.clipboard.writeText(v).catch(() => {});
+          }}
+          className="rounded-md bg-white/90 px-3 py-1.5 text-xs font-500 text-black shadow-md transition-colors hover:bg-white active:scale-95"
+        >
+          {isAnimating ? "📐 " : ""}{progress.get().toFixed(3)}
+        </button>
+      </div>
     </section>
   );
 }
