@@ -676,13 +676,11 @@ export function BookScrollScene() {
 
                 {/* Inside face */}
                 <div
-                  className="absolute inset-0 bg-[#f5f0e3]"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)",
-                  }}
+                  className="absolute inset-0"
+                  style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
-                  <div className="flex h-full w-full items-center justify-center">
+                  <div className="absolute inset-0 overflow-hidden bg-[#f5f0e3]">
+                    <div className="flex h-full w-full items-center justify-center">
                     <div className="flex flex-col items-center gap-3 p-6 text-center">
                       <span className="font-display text-base font-700 text-[#4a3728]">
                         GoUppers
@@ -695,8 +693,9 @@ export function BookScrollScene() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
+          </motion.div>
 
             {/* scroll hint */}
             <motion.div
