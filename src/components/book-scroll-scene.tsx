@@ -252,17 +252,17 @@ export function BookScrollScene() {
   /* Mobile: cycling text slots — same position, one at a time */
   const mobileText1Opacity = useTransform(
     progress,
-    [0.38, 0.44, 0.54, 0.58],
+    [0.30, 0.36, 0.50, 0.54],
     [0, 1, 1, 0],
   );
   const mobileText2Opacity = useTransform(
     progress,
-    [0.50, 0.56, 0.66, 0.70],
+    [0.46, 0.50, 0.64, 0.68],
     [0, 1, 1, 0],
   );
   const mobileText3Opacity = useTransform(
     progress,
-    [0.62, 0.68, 0.86, 0.90],
+    [0.62, 0.66, 0.84, 0.90],
     [0, 1, 1, 0],
   );
 
@@ -603,7 +603,7 @@ export function BookScrollScene() {
                   transformStyle: "preserve-3d",
                   transformOrigin: "left center",
                   rotateY: coverRotate,
-                  translateZ: 0,
+                  translateZ: 10,
                   backfaceVisibility: "hidden",
                   boxShadow:
                     "0 36px 70px -24px rgba(160,20,22,0.7)",
