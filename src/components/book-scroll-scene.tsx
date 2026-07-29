@@ -249,6 +249,23 @@ export function BookScrollScene() {
     [30, 0, 0, 20],
   );
 
+  /* Mobile: cycling text slots — same position, one at a time */
+  const mobileText1Opacity = useTransform(
+    progress,
+    [0.38, 0.44, 0.54, 0.58],
+    [0, 1, 1, 0],
+  );
+  const mobileText2Opacity = useTransform(
+    progress,
+    [0.50, 0.56, 0.66, 0.70],
+    [0, 1, 1, 0],
+  );
+  const mobileText3Opacity = useTransform(
+    progress,
+    [0.62, 0.68, 0.86, 0.90],
+    [0, 1, 1, 0],
+  );
+
   /* ══════════════════════════════════════════════════════════════════════
      MISC — leaves, shadow, scroll hint
      ══════════════════════════════════════════════════════════════════════ */
@@ -595,7 +612,10 @@ export function BookScrollScene() {
                 {/* Outside face */}
                 <div
                   className="absolute inset-0 overflow-hidden"
-                  style={{ borderRadius: "4px 8px 8px 4px" }}
+                  style={{
+                    borderRadius: "4px 8px 8px 4px",
+                    backfaceVisibility: "hidden",
+                  }}
                 >
                   <div
                     className="pointer-events-none absolute inset-0"
@@ -735,8 +755,57 @@ export function BookScrollScene() {
         </p>
       </motion.div>
 
+      {/* ═══ MOBILE: cycling texts — same slot, one at a time ═══ */}
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-[calc(50%+200px)] w-56 -translate-x-1/2 text-center sm:w-64"
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+120px)] w-56 -translate-x-1/2 text-center lg:hidden"
+        style={{ opacity: mobileText1Opacity }}
+      >
+        <span className="mb-1 inline-block rounded-full bg-amarillo/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-amarillo">
+          Contenido
+        </span>
+        <p className="mt-1.5 font-display text-sm font-700 leading-tight text-white">
+          120+ páginas
+        </p>
+        <p className="mt-1 text-[11px] leading-snug text-white/60">
+          Estrategias, checklists y herramientas para empezar a generar
+          ingresos desde el día uno.
+        </p>
+      </motion.div>
+
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+120px)] w-56 -translate-x-1/2 text-center lg:hidden"
+        style={{ opacity: mobileText2Opacity }}
+      >
+        <span className="mb-1 inline-block rounded-full bg-turquesa/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-turquesa">
+          Incluye
+        </span>
+        <p className="mt-1.5 font-display text-sm font-700 leading-tight text-white">
+          Bonus y recursos
+        </p>
+        <p className="mt-1 text-[11px] leading-snug text-white/60">
+          Templates, guías de pricing y acceso a herramientas exclusivas
+          para optimizar tu propiedad.
+        </p>
+      </motion.div>
+
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+120px)] w-56 -translate-x-1/2 text-center lg:hidden"
+        style={{ opacity: mobileText3Opacity }}
+      >
+        <span className="mb-1 inline-block rounded-full bg-salmon/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-salmon">
+          Resultado
+        </span>
+        <p className="mt-1.5 font-display text-sm font-700 leading-tight text-white">
+          De idea a negocio
+        </p>
+        <p className="mt-1 text-[11px] leading-snug text-white/60">
+          Transforma tu propiedad en un alquiler vacacional que genera
+          ingresos todos los meses, sin estrés.
+        </p>
+      </motion.div>
+
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+260px)] w-56 -translate-x-1/2 text-center sm:top-[calc(50%+200px)] sm:w-64"
         style={{ opacity: textBelowOpacity, y: textBelowY }}
       >
         <span className="mb-2 inline-block rounded-full bg-salmon/15 px-3 py-1 text-[10px] font-600 uppercase tracking-[0.15em] text-salmon">

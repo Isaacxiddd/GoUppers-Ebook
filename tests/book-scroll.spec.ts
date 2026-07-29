@@ -42,9 +42,9 @@ test.describe("Book scroll scene", () => {
     await page.screenshot({ path: "tests/screenshots/book-texts.png" });
 
     // Check all 3 texts
-    await expect(page.locator("text=120+ páginas")).toBeVisible();
-    await expect(page.locator("text=Bonus y recursos")).toBeVisible();
-    await expect(page.locator("text=De idea a negocio")).toBeVisible();
+    await expect(page.locator("text=120+ páginas").first()).toBeVisible();
+    await expect(page.locator("text=Bonus y recursos").first()).toBeVisible();
+    await expect(page.locator("text=De idea a negocio").nth(1)).toBeVisible();
   });
 
   test("scroll locks while animation plays", async ({ page }) => {
