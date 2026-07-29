@@ -611,12 +611,13 @@ export function BookScrollScene() {
               >
                 {/* Outside face */}
                 <div
-                  className="absolute inset-0 overflow-hidden"
-                  style={{
-                    borderRadius: "4px 8px 8px 4px",
-                    backfaceVisibility: "hidden",
-                  }}
+                  className="absolute inset-0"
+                  style={{ backfaceVisibility: "hidden" }}
                 >
+                  <div
+                    className="absolute inset-0 overflow-hidden"
+                    style={{ borderRadius: "4px 8px 8px 4px" }}
+                  >
                   <div
                     className="pointer-events-none absolute inset-0"
                     style={{
@@ -671,6 +672,7 @@ export function BookScrollScene() {
                     <div className="pointer-events-none absolute inset-y-0 left-0 w-7 bg-gradient-to-r from-black/28 to-transparent" />
                   </div>
                 </div>
+              </div>
 
                 {/* Inside face */}
                 <div
