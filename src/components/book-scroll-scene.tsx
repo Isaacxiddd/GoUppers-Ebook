@@ -375,7 +375,6 @@ export function BookScrollScene() {
               style={{
                 width: BOOK_WIDTH,
                 height: BOOK_HEIGHT,
-                transformStyle: "preserve-3d",
                 rotateY: bookRotateY,
                 rotateX: bookRotateX,
                 y: bookY,
@@ -525,16 +524,16 @@ export function BookScrollScene() {
               </div>
 
               {/* ═══ PAGE LEAVES ═══ */}
+              <div
+                className="absolute inset-0"
+                style={{ transformStyle: "preserve-3d" }}
+              >
               {LEAF_ANGLES.map((angle, i) => (
                 <div
                   key={i}
                   aria-hidden
-                  className="absolute"
+                  className="absolute inset-0"
                   style={{
-                    top: 6,
-                    bottom: 6,
-                    left: 2,
-                    right: 2,
                     transform: `translateZ(${-1 - i * 2}px)`,
                   }}
                 >
@@ -584,6 +583,7 @@ export function BookScrollScene() {
                   </motion.div>
                 </div>
               ))}
+              </div>
 
               {/* ═══ BOOKMARK RIBBON ═══ */}
               <div
@@ -676,11 +676,14 @@ export function BookScrollScene() {
 
                 {/* Inside face */}
                 <div
-                  className="absolute inset-0"
-                  style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                  className="absolute inset-0 bg-[#f5f0e3]"
+                  style={{
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                    transform: "rotateY(180deg)",
+                  }}
                 >
-                  <div className="absolute inset-0 overflow-hidden bg-[#f5f0e3]">
-                    <div className="flex h-full w-full items-center justify-center">
+                  <div className="flex h-full w-full items-center justify-center">
                     <div className="flex flex-col items-center gap-3 p-6 text-center">
                       <span className="font-display text-base font-700 text-[#4a3728]">
                         GoUppers
@@ -693,9 +696,8 @@ export function BookScrollScene() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
 
             {/* scroll hint */}
             <motion.div
