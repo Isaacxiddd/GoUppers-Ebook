@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useMotionValue, useTransform, useMotionValueEvent, useScroll } from "motion/react";
+import { useRef, useEffect, useState } from "react";
+import { motion, useMotionValue, useTransform, useScroll } from "motion/react";
 import { Lightning, Star, ShieldCheck, CreditCard } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 
@@ -27,25 +27,32 @@ export function BookScrollScene() {
   const [responsiveScale, setResponsiveScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
 
-  /* Dynamic GPU promotion without re-rendering React (re-renders of the whole
-     scene mid-scroll are expensive on slow phones). Toggled imperatively. */
-  const activeRef = useRef(false);
-  const bookRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const coverRef = useRef<HTMLDivElement>(null);
-  const textRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useMotionValueEvent(progress, "change", (latest) => {
-    const active = latest > 0.01 && latest < 0.87;
-    if (active === activeRef.current) return;
-    activeRef.current = active;
-    const wc = active ? "transform" : "";
-    if (bookRef.current) bookRef.current.style.willChange = wc;
-    if (cardRef.current) cardRef.current.style.willChange = wc;
-    if (coverRef.current) coverRef.current.style.willChange = wc;
-    const otc = active ? "opacity" : "";
-    for (const el of textRefs.current) if (el) el.style.willChange = otc;
-  });
+  /* Warm the cover's inside-face texture once, offscreen, during idle.
+     The first open stutters because the GPU rasterizes that face (and the
+     book's layers) on the fly, while closing is smooth — the textures are
+     already rastered. Keeping layers alive (will-change below) + one hidden
+     offscreen open frame makes every open as cheap as every close. */
+  useEffect(() => {
+    let cancelled = false;
+    const t = setTimeout(() => {
+      const persp = containerRef.current?.querySelector<HTMLElement>(".book-scroll-perspective");
+      if (!persp || cancelled || window.scrollY > 0) return;
+      requestAnimationFrame(() => {
+        if (cancelled) return;
+        persp.style.transform = "translate(120%, 0)";
+        progress.set(0.9);
+        requestAnimationFrame(() => {
+          if (cancelled) return;
+          persp.style.transform = "";
+          progress.set(0);
+        });
+      });
+    }, 350);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+  }, [progress]);
 
   useEffect(() => {
     const update = () => {
@@ -427,14 +434,17 @@ export function BookScrollScene() {
 
         {/* ═══ BOOK + SIDE TEXTS ═══ */}
         <motion.div
-          ref={bookRef}
-          style={{ x: bookCombinedX, y: bookCombinedY, scale: bookIntroScale }}
+          style={{
+            x: bookCombinedX,
+            y: bookCombinedY,
+            scale: bookIntroScale,
+            willChange: "transform",
+          }}
         >
           <div className="book-scroll-perspective relative">
 
             {/* ═══ THE BOOK ═══ */}
             <motion.div
-              ref={cardRef}
               className="book-card-scroll relative"
               style={{
                 width: BOOK_WIDTH,
@@ -442,6 +452,7 @@ export function BookScrollScene() {
                 rotateY: bookRotateY,
                 rotateX: bookRotateX,
                 y: bookY,
+                willChange: "transform",
               }}
             >
               {/* contact shadow */}
@@ -648,7 +659,6 @@ export function BookScrollScene() {
 
               {/* ═══ FRONT COVER (animated open) ═══ */}
               <motion.div
-                ref={coverRef}
                 className="absolute inset-0 rounded-r-[8px] rounded-l-[4px] bg-accent-red ring-1 ring-black/15"
                 style={{
                   transformStyle: "preserve-3d",
@@ -656,6 +666,7 @@ export function BookScrollScene() {
                   rotateY: coverRotate,
                   translateZ: 10,
                   backfaceVisibility: "hidden",
+                  willChange: "transform",
                   boxShadow: isMobile
                     ? "0 18px 34px -16px rgba(160,20,22,0.55)"
                     : "0 36px 70px -24px rgba(160,20,22,0.7)",
@@ -719,7 +730,7 @@ export function BookScrollScene() {
                     <motion.div
                       className="book-glare pointer-events-none absolute inset-0"
                       aria-hidden
-                      style={{ opacity: glareOpacity }}
+                      style={{ opacity: glareOpacity, willChange: "opacity" }}
                     />
                     <div className="pointer-events-none absolute inset-y-0 left-0 w-7 bg-gradient-to-r from-black/28 to-transparent" />
                   </div>
@@ -812,7 +823,7 @@ export function BookScrollScene() {
         style={
           isMobile
             ? undefined
-            : { opacity: textTopOpacity, x: textTopX }
+            : { opacity: textTopOpacity, x: textTopX, willChange: "opacity, transform" }
         }
       >
         <span className="mb-1 inline-block rounded-full bg-amarillo/15 px-2.5 py-0.5 text-[10px] font-600 uppercase tracking-[0.15em] text-amarillo">
@@ -832,7 +843,7 @@ export function BookScrollScene() {
         style={
           isMobile
             ? undefined
-            : { opacity: textBottomOpacity, x: textBottomX }
+            : { opacity: textBottomOpacity, x: textBottomX, willChange: "opacity, transform" }
         }
       >
         <span className="mb-1 inline-block rounded-full bg-turquesa/15 px-2.5 py-0.5 text-[10px] font-600 uppercase tracking-[0.15em] text-turquesa">
@@ -849,9 +860,8 @@ export function BookScrollScene() {
 
       {/* ═══ MOBILE: cycling texts — same slot, one at a time ═══ */}
       <motion.div
-        ref={(el) => { textRefs.current[0] = el; }}
         className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
-        style={!isMobile ? undefined : { opacity: mobileText1Opacity }}
+        style={!isMobile ? undefined : { opacity: mobileText1Opacity, willChange: "opacity" }}
       >
         <span className="mb-1 inline-block rounded-full bg-amarillo/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-amarillo">
           Contenido
@@ -866,9 +876,8 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
-        ref={(el) => { textRefs.current[1] = el; }}
         className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
-        style={!isMobile ? undefined : { opacity: mobileText2Opacity }}
+        style={!isMobile ? undefined : { opacity: mobileText2Opacity, willChange: "opacity" }}
       >
         <span className="mb-1 inline-block rounded-full bg-turquesa/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-turquesa">
           Incluye
@@ -883,9 +892,8 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
-        ref={(el) => { textRefs.current[2] = el; }}
         className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
-        style={!isMobile ? undefined : { opacity: mobileText3Opacity }}
+        style={!isMobile ? undefined : { opacity: mobileText3Opacity, willChange: "opacity" }}
       >
         <span className="mb-1 inline-block rounded-full bg-salmon/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-salmon">
           Resultado
@@ -901,7 +909,7 @@ export function BookScrollScene() {
 
       <motion.div
         className="pointer-events-none absolute left-1/2 top-[calc(50%+260px)] w-56 -translate-x-1/2 text-center max-lg:hidden sm:top-[calc(50%+200px)] sm:w-64"
-        style={isMobile ? undefined : { opacity: textBelowOpacity, y: textBelowY }}
+        style={isMobile ? undefined : { opacity: textBelowOpacity, y: textBelowY, willChange: "opacity, transform" }}
       >
         <span className="mb-2 inline-block rounded-full bg-salmon/15 px-3 py-1 text-[10px] font-600 uppercase tracking-[0.15em] text-salmon">
           Resultado
