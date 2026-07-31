@@ -26,12 +26,25 @@ export function BookScrollScene() {
   /* ── Responsive book scale ──────────────────────────────────────────── */
   const [responsiveScale, setResponsiveScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  /* Track when book is actively animating — for dynamic will-change */
+  /* Dynamic GPU promotion without re-rendering React (re-renders of the whole
+     scene mid-scroll are expensive on slow phones). Toggled imperatively. */
+  const activeRef = useRef(false);
+  const bookRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const coverRef = useRef<HTMLDivElement>(null);
+  const textRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   useMotionValueEvent(progress, "change", (latest) => {
     const active = latest > 0.01 && latest < 0.87;
-    setIsAnimating((prev) => (prev !== active ? active : prev));
+    if (active === activeRef.current) return;
+    activeRef.current = active;
+    const wc = active ? "transform" : "";
+    if (bookRef.current) bookRef.current.style.willChange = wc;
+    if (cardRef.current) cardRef.current.style.willChange = wc;
+    if (coverRef.current) coverRef.current.style.willChange = wc;
+    const otc = active ? "opacity" : "";
+    for (const el of textRefs.current) if (el) el.style.willChange = otc;
   });
 
   useEffect(() => {
@@ -333,7 +346,7 @@ export function BookScrollScene() {
     <section
       ref={containerRef}
       data-book="closed"
-      className="hero-bg relative"
+      className="hero-bg relative [overflow-anchor:none]"
       style={{ height: isMobile ? "300vh" : "100vh", touchAction: "manipulation" }}
     >
       {/* Mobile: sticky viewport pinned while the section scrolls (native momentum).
@@ -413,12 +426,16 @@ export function BookScrollScene() {
         </motion.div>
 
         {/* ═══ BOOK + SIDE TEXTS ═══ */}
-        <motion.div style={{ x: bookCombinedX, y: bookCombinedY, scale: bookIntroScale }}>
+        <motion.div
+          ref={bookRef}
+          style={{ x: bookCombinedX, y: bookCombinedY, scale: bookIntroScale }}
+        >
           <div className="book-scroll-perspective relative">
 
             {/* ═══ THE BOOK ═══ */}
             <motion.div
-              className={`book-card-scroll relative${isAnimating ? " will-change-transform" : ""}`}
+              ref={cardRef}
+              className="book-card-scroll relative"
               style={{
                 width: BOOK_WIDTH,
                 height: BOOK_HEIGHT,
@@ -631,6 +648,7 @@ export function BookScrollScene() {
 
               {/* ═══ FRONT COVER (animated open) ═══ */}
               <motion.div
+                ref={coverRef}
                 className="absolute inset-0 rounded-r-[8px] rounded-l-[4px] bg-accent-red ring-1 ring-black/15"
                 style={{
                   transformStyle: "preserve-3d",
@@ -638,8 +656,9 @@ export function BookScrollScene() {
                   rotateY: coverRotate,
                   translateZ: 10,
                   backfaceVisibility: "hidden",
-                  boxShadow:
-                    "0 36px 70px -24px rgba(160,20,22,0.7)",
+                  boxShadow: isMobile
+                    ? "0 18px 34px -16px rgba(160,20,22,0.55)"
+                    : "0 36px 70px -24px rgba(160,20,22,0.7)",
                 }}
               >
                 {/* Outside face */}
@@ -790,7 +809,11 @@ export function BookScrollScene() {
       {/* ═══ SIDE TEXTS — direct children of section, not inside any motion wrapper ═══ */}
       <motion.div
         className="pointer-events-none absolute left-[12%] top-[28%] w-56 text-left max-lg:hidden"
-        style={{ opacity: textTopOpacity, x: textTopX }}
+        style={
+          isMobile
+            ? undefined
+            : { opacity: textTopOpacity, x: textTopX }
+        }
       >
         <span className="mb-1 inline-block rounded-full bg-amarillo/15 px-2.5 py-0.5 text-[10px] font-600 uppercase tracking-[0.15em] text-amarillo">
           Contenido
@@ -806,7 +829,11 @@ export function BookScrollScene() {
 
       <motion.div
         className="pointer-events-none absolute left-[12%] top-[58%] w-56 text-left max-lg:hidden"
-        style={{ opacity: textBottomOpacity, x: textBottomX }}
+        style={
+          isMobile
+            ? undefined
+            : { opacity: textBottomOpacity, x: textBottomX }
+        }
       >
         <span className="mb-1 inline-block rounded-full bg-turquesa/15 px-2.5 py-0.5 text-[10px] font-600 uppercase tracking-[0.15em] text-turquesa">
           Incluye
@@ -822,8 +849,9 @@ export function BookScrollScene() {
 
       {/* ═══ MOBILE: cycling texts — same slot, one at a time ═══ */}
       <motion.div
+        ref={(el) => { textRefs.current[0] = el; }}
         className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
-        style={{ opacity: mobileText1Opacity }}
+        style={!isMobile ? undefined : { opacity: mobileText1Opacity }}
       >
         <span className="mb-1 inline-block rounded-full bg-amarillo/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-amarillo">
           Contenido
@@ -838,8 +866,9 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
+        ref={(el) => { textRefs.current[1] = el; }}
         className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
-        style={{ opacity: mobileText2Opacity }}
+        style={!isMobile ? undefined : { opacity: mobileText2Opacity }}
       >
         <span className="mb-1 inline-block rounded-full bg-turquesa/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-turquesa">
           Incluye
@@ -854,8 +883,9 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
+        ref={(el) => { textRefs.current[2] = el; }}
         className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
-        style={{ opacity: mobileText3Opacity }}
+        style={!isMobile ? undefined : { opacity: mobileText3Opacity }}
       >
         <span className="mb-1 inline-block rounded-full bg-salmon/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-salmon">
           Resultado
@@ -871,7 +901,7 @@ export function BookScrollScene() {
 
       <motion.div
         className="pointer-events-none absolute left-1/2 top-[calc(50%+260px)] w-56 -translate-x-1/2 text-center max-lg:hidden sm:top-[calc(50%+200px)] sm:w-64"
-        style={{ opacity: textBelowOpacity, y: textBelowY }}
+        style={isMobile ? undefined : { opacity: textBelowOpacity, y: textBelowY }}
       >
         <span className="mb-2 inline-block rounded-full bg-salmon/15 px-3 py-1 text-[10px] font-600 uppercase tracking-[0.15em] text-salmon">
           Resultado
@@ -894,7 +924,7 @@ export function BookScrollScene() {
           }}
           className="rounded-md bg-white/90 px-3 py-1.5 text-xs font-500 text-black shadow-md transition-colors hover:bg-white active:scale-95"
         >
-          {isAnimating ? "📐 " : ""}{progress.get().toFixed(3)}
+          {progress.get().toFixed(3)}
         </button>
       </div>
       </div>
