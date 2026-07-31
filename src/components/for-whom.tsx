@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/reveal";
 const POINTS = [
   "Compras o ya tienes una propiedad y no sabes por dónde empezar.",
   "Ya alquilas, pero el calendario tiene más huecos que reservas.",
-  "Estás cansado de dejar el 20% en manos de una inmobiliaria.",
+  "Estás improvisando los precios y no sabés cuánto cobrar por noche.",
   "Quieres ingresos en dólares sin vivir pendiente del teléfono.",
 ];
 
@@ -16,8 +16,8 @@ export function ForWhom() {
         <Reveal className="order-2 lg:order-1">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl sm:aspect-[4/3] lg:aspect-[4/5]">
             <Image
-              src="https://picsum.photos/seed/gouppers-owner-balcony/900/1100"
-              alt="Propietaria revisando las reservas de su alquiler vacacional"
+              src="/images/deptos/dept-1.jpg"
+              alt="Departamento preparado para alquiler vacacional"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"

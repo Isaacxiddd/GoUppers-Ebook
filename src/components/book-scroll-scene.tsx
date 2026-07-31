@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useMotionValue, useTransform, useMotionValueEvent } from "motion/react";
+import { motion, useMotionValue, useTransform, useMotionValueEvent, useScroll } from "motion/react";
 import { Lightning, Star, ShieldCheck, CreditCard } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 
@@ -46,8 +46,43 @@ export function BookScrollScene() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  /* ── Mobile: native scroll drives the animation (Rockstar-style sticky) ──
+     Maps window scrollY against the measured section travel. Unlike
+     target-based useScroll, this does zero getBoundingClientRect reads per
+     scroll frame (no forced layout) — a big win on mobile.
+     Desktop keeps the manual hijack. */
+  const { scrollY } = useScroll();
+  const travel = useMotionValue(1);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const measure = () =>
+      travel.set(Math.max(1, el.offsetHeight - window.innerHeight));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener("resize", measure);
+    window.addEventListener("orientationchange", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("orientationchange", measure);
+    };
+  }, [travel]);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const unsub = scrollY.on("change", (y) => {
+      const t = travel.get();
+      progress.set(Math.max(0, Math.min(1, y / t)));
+    });
+    return unsub;
+  }, [isMobile, scrollY, travel, progress]);
+
   /* ── Single wheel handler — hijack from the start ────────────────── */
   useEffect(() => {
+    if (isMobile) return; /* mobile scrolls natively */
     let rafId = 0;
 
     const handleWheel = (e: WheelEvent) => {
@@ -89,10 +124,11 @@ export function BookScrollScene() {
       window.removeEventListener("wheel", handleWheel);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isMobile]);
 
   /* ── Single touch handler ──────────────────────────────────────── */
   useEffect(() => {
+    if (isMobile) return; /* mobile scrolls natively */
     let lastY = 0;
     let rafId = 0;
 
@@ -141,7 +177,7 @@ export function BookScrollScene() {
       window.removeEventListener("touchmove", onTouchMove);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isMobile]);
 
   /* ══════════════════════════════════════════════════════════════════════
      PHASE 1 — Hero text fades, book enters from right
@@ -160,7 +196,7 @@ export function BookScrollScene() {
   const bookIntroX = useTransform(
     progress,
     [0, 0.22],
-    isMobile ? [0, 0] : [160, 0],
+    isMobile ? [-24, -24] : [160, 0],
   );
   const bookIntroY = useTransform(
     progress,
@@ -297,9 +333,20 @@ export function BookScrollScene() {
     <section
       ref={containerRef}
       data-book="closed"
-      className="hero-bg relative overflow-hidden"
-      style={{ height: "100vh", touchAction: "manipulation" }}
+      className="hero-bg relative"
+      style={{ height: isMobile ? "300vh" : "100vh", touchAction: "manipulation" }}
     >
+      {/* Mobile: sticky viewport pinned while the section scrolls (native momentum).
+          Desktop: plain 100vh box — same layout as always.
+          NOTE: overflow-hidden lives HERE (the pinned viewport), not on the section —
+          an overflow:hidden ancestor would break position:sticky. */}
+      <div
+        className={
+          isMobile
+            ? "sticky top-0 h-[100dvh] overflow-hidden"
+            : "relative h-full overflow-hidden"
+        }
+      >
       <span
         aria-hidden
         className="pointer-events-none absolute -bottom-8 left-2 select-none font-display text-[26vw] font-700 leading-none tracking-tighter text-white/[0.03] sm:text-[20vw]"
@@ -554,29 +601,15 @@ export function BookScrollScene() {
                       }}
                     >
                       {i === 0 && (
-                        <div className="flex h-full flex-col p-8 pt-10">
-                          <span className="mb-1 text-[8px] font-600 uppercase tracking-[0.18em] text-[#b0a594]">
-                            Vista previa
+                        <div className="flex h-full flex-col items-center justify-center gap-2 p-4 text-center">
+                          <span className="font-display text-[14px] font-700 text-[#4a3728]">
+                            GoUppers
                           </span>
-                          <div className="mt-3 h-px w-12 bg-[#d4c9b8]" />
-                          <ul className="mt-4 flex flex-col gap-3">
-                            {[
-                              "Configuración inicial",
-                              "Pricing y tarifas",
-                              "Fotos que venden",
-                              "Automatización",
-                            ].map((item) => (
-                              <li
-                                key={item}
-                                className="flex items-center gap-2 text-[11px] leading-snug text-[#6b5e4f]"
-                              >
-                                <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-turquesa/15 text-[9px] text-turquesa">
-                                  ✓
-                                </span>
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
+                          <div className="h-px w-12 bg-[#c4b8a5]" />
+                          <p className="text-[14px] leading-[1.2] text-[#8a7d6b]">
+                            Tu guía para transformar cualquier propiedad en un
+                            negocio de alquiler vacacional exitoso.
+                          </p>
                         </div>
                       )}
                     </div>
@@ -683,16 +716,45 @@ export function BookScrollScene() {
                     transform: "rotateY(180deg)",
                   }}
                 >
-                  <div className="flex h-full w-full items-center justify-center">
-                    <div className="flex flex-col items-center gap-3 p-6 text-center">
-                      <span className="font-display text-base font-700 text-[#4a3728]">
-                        GoUppers
-                      </span>
-                      <div className="h-px w-16 bg-[#c4b8a5]" />
-                      <p className="max-w-[12rem] text-[11px] leading-relaxed text-[#8a7d6b]">
-                        Tu guía para transformar cualquier propiedad en un
-                        negocio de alquiler vacacional exitoso.
-                      </p>
+                  <div className="flex h-full w-full items-start p-4">
+                    <div className="flex w-full flex-col gap-[5px]">
+                      <span className="text-center text-[11px] font-600 uppercase tracking-wider text-[#b0a594]">— Contenido —</span>
+                      <div className="mb-[2px] h-px w-full bg-[#d4c9b8]" />
+                      {[
+                        ["Prólogo", "3"],
+                        ["1  Mentalidad del huésped", "4"],
+                        ["2  Fotografía profesional", "8"],
+                        ["3  Checklist pre-fotografía", "14"],
+                        ["4  Título que para el scroll", "18"],
+                        ["5  Descripción perfecta + IA", "22"],
+                        ["6  Precio y posicionamiento", "30"],
+                        ["7  Reseñas", "35"],
+                        ["8  Decoración y staging", "40"],
+                        ["9  Marketing en redes", "44"],
+                        ["10  Automatización", "48"],
+                        ["11  SEO en plataformas", "52"],
+                        ["12  Análisis y métricas", "56"],
+                        ["13  Guía del huésped", "60"],
+                        ["14  Estrategia multiplataforma", "63"],
+                        ["Checklist final", "66"],
+                        ["Epílogo", "70"],
+                      ].map(([item, page]) => (
+                        <div
+                          key={item}
+                          className="flex items-baseline"
+                        >
+                          <span className="text-[14px] leading-[1.15] text-[#6b5e4f]">
+                            {item}
+                          </span>
+                          <span
+                            className="mx-[3px] flex-1 border-b-2 border-dotted border-[#b0a594] opacity-40"
+                            style={{ borderBottomStyle: "dotted" }}
+                          />
+                          <span className="text-[14px] leading-[1.15] text-[#b0a594]">
+                            {page}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -760,7 +822,7 @@ export function BookScrollScene() {
 
       {/* ═══ MOBILE: cycling texts — same slot, one at a time ═══ */}
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-[calc(50%+120px)] w-56 -translate-x-1/2 text-center lg:hidden"
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
         style={{ opacity: mobileText1Opacity }}
       >
         <span className="mb-1 inline-block rounded-full bg-amarillo/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-amarillo">
@@ -776,7 +838,7 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-[calc(50%+120px)] w-56 -translate-x-1/2 text-center lg:hidden"
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
         style={{ opacity: mobileText2Opacity }}
       >
         <span className="mb-1 inline-block rounded-full bg-turquesa/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-turquesa">
@@ -792,7 +854,7 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-[calc(50%+120px)] w-56 -translate-x-1/2 text-center lg:hidden"
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+180px)] w-56 -translate-x-1/2 text-center lg:hidden"
         style={{ opacity: mobileText3Opacity }}
       >
         <span className="mb-1 inline-block rounded-full bg-salmon/15 px-2.5 py-0.5 text-[9px] font-600 uppercase tracking-[0.15em] text-salmon">
@@ -808,7 +870,7 @@ export function BookScrollScene() {
       </motion.div>
 
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-[calc(50%+260px)] w-56 -translate-x-1/2 text-center sm:top-[calc(50%+200px)] sm:w-64"
+        className="pointer-events-none absolute left-1/2 top-[calc(50%+260px)] w-56 -translate-x-1/2 text-center max-lg:hidden sm:top-[calc(50%+200px)] sm:w-64"
         style={{ opacity: textBelowOpacity, y: textBelowY }}
       >
         <span className="mb-2 inline-block rounded-full bg-salmon/15 px-3 py-1 text-[10px] font-600 uppercase tracking-[0.15em] text-salmon">
@@ -834,6 +896,7 @@ export function BookScrollScene() {
         >
           {isAnimating ? "📐 " : ""}{progress.get().toFixed(3)}
         </button>
+      </div>
       </div>
     </section>
   );

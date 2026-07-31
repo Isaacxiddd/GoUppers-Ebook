@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { CurrencyDollar, Camera, Star, ChartLineUp } from "@phosphor-icons/react/dist/ssr";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
+import { DeptPhoto } from "@/components/ui/dept-photo";
 
 export function Benefits() {
   return (
@@ -32,18 +32,26 @@ export function Benefits() {
             </article>
           </RevealItem>
 
-          {/* B — gold tinted */}
+          {/* B — photo of the property */}
           <RevealItem>
-            <article className="flex h-full flex-col justify-between rounded-3xl border border-amarillo/60 bg-amarillo/15 p-8">
-              <Camera weight="duotone" className="size-9 text-ink" />
-              <div className="mt-16">
-                <h3 className="font-display text-2xl font-700 tracking-tight text-ink">
-                  Fotos que venden solas
-                </h3>
-                <p className="mt-3 text-muted">
-                  Cómo mostrar tu propiedad para que el huésped haga clic en
-                  reservar, aunque uses el celular.
-                </p>
+            <article className="relative flex h-full min-h-[280px] flex-col justify-end overflow-hidden rounded-3xl">
+              <DeptPhoto
+                alt="Fotografías profesionales de un departamento para alquiler vacacional"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="absolute inset-0"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+              <div className="relative flex items-start gap-3 p-8">
+                <Camera weight="duotone" className="mt-1 size-6 shrink-0 text-amarillo" />
+                <div>
+                  <h3 className="font-display text-2xl font-700 tracking-tight text-white">
+                    Fotos que venden solas
+                  </h3>
+                  <p className="mt-2 text-sm text-white/75">
+                    Cómo mostrar tu propiedad para que el huésped haga clic en
+                    reservar, aunque uses el celular.
+                  </p>
+                </div>
               </div>
             </article>
           </RevealItem>
@@ -51,12 +59,10 @@ export function Benefits() {
           {/* C — image cell */}
           <RevealItem>
             <article className="relative flex h-full min-h-[280px] flex-col justify-end overflow-hidden rounded-3xl">
-              <Image
-                src="https://picsum.photos/seed/gouppers-apartment-interior/800/1000"
+              <DeptPhoto
                 alt="Interior de un departamento preparado para alquiler vacacional"
-                fill
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover"
+                className="absolute inset-0"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
               <div className="relative p-8">

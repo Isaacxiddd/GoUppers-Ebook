@@ -14,7 +14,7 @@ test.describe("Book scroll — mobile", () => {
   });
 
   test("scroll opens book fully", async ({ page }) => {
-    // Each scroll adds max 0.018, need ~50+ to reach p>0.86
+    // Native scroll: ~300vh of travel until the book is fully open
     for (let i = 0; i < 55; i++) {
       await page.mouse.wheel(0, 120);
       await page.waitForTimeout(25);
@@ -55,8 +55,8 @@ test.describe("Book scroll — mobile", () => {
     expect(closedStatus).toBe("closed");
   });
 
-  test("scroll locks while animating", async ({ page }) => {
-    for (let i = 0; i < 15; i++) {
+  test("scroll drives the animation natively", async ({ page }) => {
+    for (let i = 0; i < 6; i++) {
       await page.mouse.wheel(0, 120);
       await page.waitForTimeout(25);
     }
@@ -66,13 +66,18 @@ test.describe("Book scroll — mobile", () => {
     );
     expect(status).toBe("opening");
 
-    // Lock check
+    // Native scroll: the page actually moves instead of locking
     const scrollY = await page.evaluate(() => window.scrollY);
-    for (let i = 0; i < 15; i++) {
+    expect(scrollY).toBeGreaterThan(0);
+
+    // Keep scrolling → the animation follows the scroll to fully open
+    for (let i = 0; i < 10; i++) {
       await page.mouse.wheel(0, 120);
       await page.waitForTimeout(25);
     }
-    const scrollYAfter = await page.evaluate(() => window.scrollY);
-    expect(Math.abs(scrollYAfter - scrollY)).toBeLessThan(200);
+    const openedStatus = await page.evaluate(() =>
+      document.querySelector("[data-book]")?.getAttribute("data-book")
+    );
+    expect(openedStatus).toBe("open");
   });
 });
