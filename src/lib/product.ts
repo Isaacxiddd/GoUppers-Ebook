@@ -7,7 +7,7 @@ export const PRODUCT = {
   currency: "USD",
   // TODO(FASE 5): confirm final price with GoUppers (rango 19–27) and align with Stripe Price.
   price: 24,
-  format: "PDF + plantillas descargables",
+  format: "Guía en PDF",
 } as const;
 
 export const priceLabel = `${PRODUCT.currency} ${PRODUCT.price}`;

@@ -127,6 +127,15 @@ body {
   contain-intrinsic-size: auto 600px;
 }
 
+/* Hide scrollbar on mobile swipe carousels (track still scrolls) */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Floating seal wobble — CSS only, no JS cost. */
 @keyframes seal-wobble {
   0%, 100% { transform: rotate(-5deg); }

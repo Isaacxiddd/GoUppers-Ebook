@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { WarningCircle } from "@phosphor-icons/react";
+import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 
 /** Client half of the checkout flow. Posts to /api/checkout (added in FASE 3)

@@ -5,7 +5,6 @@ import { PRODUCT, priceLabel } from "@/lib/product";
 
 const INCLUDES = [
   "La guía completa en PDF, lista para leer en el celular",
-  "Plantilla de precios por temporada para copiar y pegar",
   "Checklist de fotos y puesta a punto de la propiedad",
   "Guion de mensajes para reseñas de 5 estrellas",
 ];
@@ -57,7 +56,7 @@ export function PricingCta() {
                 <div className="mt-8">
                   <PurchaseButton label="Obtener mi guía ahora" />
                   <p className="mt-3 text-center text-xs text-white/40">
-                    PDF + plantillas descargables · Acceso inmediato
+                    Descarga inmediata en PDF
                   </p>
                 </div>
               </div>

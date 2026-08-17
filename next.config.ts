@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    // Tree-shake the Phosphor icon barrel so client bundles only ship the
+    // icons actually used (smaller mobile JS payload).
+    optimizePackageImports: ["@phosphor-icons/react"],
+  },
 };
 
 export default nextConfig;

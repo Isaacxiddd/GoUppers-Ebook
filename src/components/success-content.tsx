@@ -6,7 +6,7 @@ import {
   DownloadSimple,
   WarningCircle,
   SpinnerGap,
-} from "@phosphor-icons/react";
+} from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/ui/cta-button";
 
 type State =

@@ -34,7 +34,7 @@ export function BookScrollScene() {
      offscreen open frame makes every open as cheap as every close. */
   useEffect(() => {
     let cancelled = false;
-    const t = setTimeout(() => {
+    const run = () => {
       const persp = containerRef.current?.querySelector<HTMLElement>(".book-scroll-perspective");
       if (!persp || cancelled || window.scrollY > 0) return;
       requestAnimationFrame(() => {
@@ -47,10 +47,17 @@ export function BookScrollScene() {
           progress.set(0);
         });
       });
-    }, 350);
+    };
+    /* Defer the prewarm to idle so it never competes with first paint on
+       mobile. Falls back to a timeout where requestIdleCallback is missing. */
+    const supportsIdle = "requestIdleCallback" in window;
+    const handle: number = supportsIdle
+      ? window.requestIdleCallback(run, { timeout: 1200 })
+      : (window.setTimeout(run, 350) as unknown as number);
     return () => {
       cancelled = true;
-      clearTimeout(t);
+      if (supportsIdle) window.cancelIdleCallback(handle);
+      else clearTimeout(handle);
     };
   }, [progress]);
 
