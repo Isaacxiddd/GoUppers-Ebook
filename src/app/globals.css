@@ -35,7 +35,6 @@
 
   --font-display: var(--font-comfortaa);
   --font-sans: var(--font-dm-sans);
-  --font-script: var(--font-great-vibes);
 }
 
 html {
@@ -106,6 +105,18 @@ body {
     url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
     /* radial depth — lighter center draws eye to book */
     radial-gradient(ellipse 70% 55% at 50% 45%, #222 0%, #181818 45%, #0e0e0e 100%);
+}
+
+/* Book fades in once its intro pose is measured client-side (avoids the
+   desktop→mobile jump on first paint). Only opacity animates — the pose is
+   transform-driven, so no layout shift. */
+.book-appear {
+  transition: opacity 220ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-appear {
+    transition: none;
+  }
 }
 
 /* Scroll scene — perspective for the 3D book */

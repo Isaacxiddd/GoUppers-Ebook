@@ -26,6 +26,11 @@ export function BookScrollScene() {
   /* ── Responsive book scale ──────────────────────────────────────────── */
   const [responsiveScale, setResponsiveScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  /* The server can't know the viewport, so the book's intro pose is measured
+     on the client. Keep it hidden until that first measurement lands, then
+     fade it in — otherwise it paints in the desktop pose and visibly jumps to
+     the mobile pose after hydration. */
+  const [mounted, setMounted] = useState(false);
 
   /* Warm the cover's inside-face texture once, offscreen, during idle.
      The first open stutters because the GPU rasterizes that face (and the
@@ -69,6 +74,7 @@ export function BookScrollScene() {
       setResponsiveScale(s);
     };
     update();
+    setMounted(true);
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
@@ -441,10 +447,12 @@ export function BookScrollScene() {
 
         {/* ═══ BOOK + SIDE TEXTS ═══ */}
         <motion.div
+          className="book-appear"
           style={{
             x: bookCombinedX,
             y: bookCombinedY,
             scale: bookIntroScale,
+            opacity: mounted ? 1 : 0,
             willChange: "transform",
           }}
         >

@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/reveal";
 const POINTS = [
   "Compras o ya tienes una propiedad y no sabes por dónde empezar.",
   "Ya alquilas, pero el calendario tiene más huecos que reservas.",
-  "Estás improvisando los precios y no sabés cuánto cobrar por noche.",
+  "Estás improvisando los precios y no sabes cuánto cobrar por noche.",
   "Quieres ingresos en dólares sin vivir pendiente del teléfono.",
 ];
 

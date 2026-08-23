@@ -17,7 +17,7 @@ const TESTIMONIALS = [
     quote:
       "Apliqué el capítulo de precios y en el primer mes pasé de 9 a 21 noches reservadas. La guía se pagó sola en una semana.",
     name: "Marcela Ferreyra",
-    role: "Depto en Mar del Plata",
+    role: "Departamento en Mar del Plata",
     initials: "MF",
     tone: "bg-accent-red",
   },

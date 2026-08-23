@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Comfortaa, DM_Sans, Great_Vibes } from "next/font/google";
+import { Comfortaa, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 // Comfortaa = tipografía primaria oficial (palo seco redondeado).
@@ -16,15 +16,6 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-// Great Vibes = sustituto gratuito de "Billie Signature" (cursiva/caligráfica).
-// Solo para acentos y palabras clave dentro de títulos.
-const greatVibes = Great_Vibes({
-  variable: "--font-great-vibes",
-  subsets: ["latin"],
-  weight: ["400"],
   display: "swap",
 });
 
@@ -45,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Guía para propietarios | GoUppers",
     description:
-      "Convertí tu propiedad en un alquiler vacacional rentable. La guía definitiva de GoUppers para propietarios.",
+      "Convierte tu propiedad en un alquiler vacacional rentable. La guía definitiva de GoUppers para propietarios.",
     type: "website",
     locale: "es_ES",
   },
@@ -57,7 +48,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${comfortaa.variable} ${dmSans.variable} ${greatVibes.variable} antialiased`}
+      className={`${comfortaa.variable} ${dmSans.variable} antialiased`}
     >
       <body className="min-h-[100dvh] flex flex-col bg-paper text-ink">
         {children}

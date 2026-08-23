@@ -19,7 +19,7 @@ export function PricingCta() {
               {/* left: what you get */}
               <div>
                 <h2 className="font-display text-3xl font-800 leading-[1.05] tracking-tight sm:text-4xl">
-                  Llevá el sistema GoUppers
+                  Lleva el sistema GoUppers
                   <br />
                   a donde quieras.
                 </h2>
