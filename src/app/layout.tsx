@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Comfortaa, DM_Sans } from "next/font/google";
+import { AnchorScroll } from "@/components/ui/anchor-scroll";
 import "./globals.css";
 
 // Comfortaa = tipografía primaria oficial (palo seco redondeado).
@@ -51,6 +52,7 @@ export default function RootLayout({
       className={`${comfortaa.variable} ${dmSans.variable} antialiased`}
     >
       <body className="min-h-[100dvh] flex flex-col bg-paper text-ink">
+        <AnchorScroll />
         {children}
       </body>
     </html>

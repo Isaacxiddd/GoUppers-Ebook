@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform, useScroll } from "motion/react";
 import { Lightning, Star, ShieldCheck, CreditCard } from "@phosphor-icons/react/dist/ssr";
-import { CtaButton } from "@/components/ui/cta-button";
+// import { CtaButton } from "@/components/ui/cta-button";
 
 /**
  * Unified hero + scroll-locked 3D book experience.
@@ -408,11 +408,12 @@ export function BookScrollScene() {
             pasos, números y plantillas que ya funcionan en 60+ ciudades.
           </p>
 
-          <div className="flex flex-col items-center gap-2 sm:items-start">
+          {/* Botón de compra oculto temporalmente mientras se revisa el scroll. */}
+          {/* <div className="flex flex-col items-center gap-2 sm:items-start">
             <CtaButton href="#comprar" pulse>
               Empezar a facturar
             </CtaButton>
-          </div>
+          </div> */}
 
           {/* Trust strip */}
           <div className="flex flex-col items-center gap-1.5 sm:items-start">
@@ -937,19 +938,6 @@ export function BookScrollScene() {
           ingresos todos los meses, sin estrés.
         </p>
       </motion.div>
-
-      {/* Debug: progress value */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <button
-          onClick={() => {
-            const v = progress.get().toFixed(3);
-            navigator.clipboard.writeText(v).catch(() => {});
-          }}
-          className="rounded-md bg-white/90 px-3 py-1.5 text-xs font-500 text-black shadow-md transition-colors hover:bg-white active:scale-95"
-        >
-          {progress.get().toFixed(3)}
-        </button>
-      </div>
       </div>
     </section>
   );
