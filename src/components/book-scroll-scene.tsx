@@ -318,20 +318,24 @@ export function BookScrollScene() {
     [30, 0, 0, 20],
   );
 
-  /* Mobile: cycling text slots — same position, one at a time */
+  /* Mobile: cycling text slots — same position, one at a time.
+     The three blocks share the exact same slot, so their fades must NOT
+     overlap: each one must reach opacity 0 before the next starts rising,
+     otherwise two render on top of each other in the same spot and become
+     unreadable. Windows are fully sequential with a small gap between them. */
   const mobileText1Opacity = useTransform(
     progress,
-    [0.30, 0.36, 0.50, 0.54],
+    [0.28, 0.33, 0.44, 0.48],
     [0, 1, 1, 0],
   );
   const mobileText2Opacity = useTransform(
     progress,
-    [0.46, 0.50, 0.64, 0.68],
+    [0.50, 0.55, 0.64, 0.68],
     [0, 1, 1, 0],
   );
   const mobileText3Opacity = useTransform(
     progress,
-    [0.62, 0.66, 0.84, 0.90],
+    [0.70, 0.75, 0.86, 0.92],
     [0, 1, 1, 0],
   );
 
