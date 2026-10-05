@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/test-results/
+/tests/screenshots/
+/dbg-*.png
 
 # next.js
 /.next/
